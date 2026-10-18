@@ -34,13 +34,15 @@ O nome do arquivo vira o endereço: `meu-post.md` → `/blog/meu-post/`.
 | O quê | Arquivo |
 |---|---|
 | Nome, cargo, cidade, frase do selo, links | `src/consts.ts` |
-| Página inicial (apresentação e áreas) | `src/pages/index.astro` |
+| Página inicial (título e apresentação) | `src/pages/index.astro` |
+| Terminal do topo e seção "Agora" | `src/data/agora.ts` |
 | Sobre (texto) | `src/pages/sobre.astro` |
 | Trajetória e ferramentas do Sobre | `src/data/trajetoria.ts` |
 | Lista de projetos (`destaque: true` aparece na home) | `src/data/projetos.ts` |
 | Foto | `src/assets/avatar.jpg` |
 | Menu e rodapé | `src/components/Header.astro`, `Footer.astro` |
-| Cores (tema claro e escuro) | `src/styles/global.css` |
+| Cores e tipografia (tema claro e escuro) | `src/styles/global.css` |
+| Faixa "Vamos conversar?" | `src/components/Convite.astro` |
 | Fontes | `astro.config.mjs` |
 
 ## Publicação

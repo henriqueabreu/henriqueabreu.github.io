@@ -1,8 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import avatar from '../assets/avatar.jpg';
 import FormattedDate from '../components/FormattedDate.astro';
-import { SITE_TITLE } from '../consts';
+import { AUTOR, SITE_TITLE } from '../consts';
 import Layout from './Layout.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
@@ -13,17 +14,21 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <Layout title={`${title} — ${SITE_TITLE}`} description={description} image={heroImage}>
 	<article>
 		<header>
-			<a href="/blog" class="voltar">← Todos os posts</a>
-			<p class="data">
-				<FormattedDate date={pubDate} />
-				{updatedDate && (
-					<span>
-						· atualizado em <FormattedDate date={updatedDate} />
-					</span>
-				)}
-			</p>
+			<a href="/blog" class="voltar">← Escritos</a>
 			<h1>{title}</h1>
 			<p class="descricao">{description}</p>
+			<div class="meta">
+				<Image src={avatar} alt="" width={80} height={80} />
+				<span>
+					<strong>{AUTOR.nome}</strong>
+					<FormattedDate date={pubDate} />
+					{updatedDate && (
+						<>
+							{' '}· atualizado em <FormattedDate date={updatedDate} />
+						</>
+					)}
+				</span>
+			</div>
 		</header>
 		{heroImage && <Image width={1020} height={510} src={heroImage} alt="" class="capa" />}
 		<div class="prose">
@@ -34,39 +39,50 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 <style>
 	article {
-		max-width: 720px;
+		max-width: 680px;
 		margin: 0 auto;
 	}
 	header {
-		margin-bottom: 2.5rem;
-		padding-bottom: 2rem;
-		border-bottom: 1px solid var(--border);
+		margin-bottom: 48px;
+		padding-bottom: 32px;
+		border-bottom: 1px solid var(--hairline);
 	}
 	.voltar {
 		display: inline-block;
-		margin-bottom: 2rem;
-		color: var(--text-subtle);
-		font-size: 0.9rem;
+		margin-bottom: 40px;
+		color: var(--muted);
+		font-size: 14px;
 		text-decoration: none;
 	}
-	.voltar:hover {
-		color: var(--accent);
-	}
-	.data {
-		margin-bottom: 0.75rem;
-		color: var(--accent);
-		font-family: var(--font-mono);
-		font-size: 0.85rem;
-	}
 	.descricao {
-		margin: 0;
-		color: var(--text-muted);
-		font-size: 1.15rem;
+		margin-bottom: 32px;
+		color: var(--muted);
+		font-family: var(--font-serif);
+		font-size: 1.4rem;
+		line-height: 1.4;
+	}
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.35;
+	}
+	.meta :global(img) {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+	.meta strong {
+		display: block;
+		color: var(--ink);
+		font-weight: 500;
 	}
 	article :global(.capa) {
 		width: 100%;
-		margin-bottom: 2.5rem;
-		border-radius: var(--radius);
-		box-shadow: var(--shadow);
+		margin-bottom: 48px;
+		border-radius: 12px;
 	}
 </style>

@@ -1,93 +1,68 @@
 ---
 import type { Projeto } from '../data/projetos';
-import Icon from './Icon.astro';
 
 interface Props {
 	projeto: Projeto;
 }
 
 const { projeto } = Astro.props;
-const Tag = projeto.link ? 'a' : 'article';
 ---
 
-<Tag
-	class:list={['card', 'projeto', { interactive: projeto.link }]}
-	href={projeto.link}
-	target={projeto.link ? '_blank' : undefined}
-	rel={projeto.link ? 'noopener' : undefined}
->
-	<div class="topo">
-		<span class:list={['status', projeto.status === 'Em andamento' && 'ativo']}>{projeto.status}</span>
-		{projeto.link && <span class="seta"><Icon name="arrow" size={18} /></span>}
-	</div>
-	<h3>{projeto.nome}</h3>
-	<p>{projeto.descricao}</p>
-	<ul class="chips">
-		{projeto.tecnologias.map((t) => <li class="chip">{t}</li>)}
+<article class="projeto">
+	<p class:list={['status', { ativo: projeto.status === 'Em andamento' }]}>{projeto.status}</p>
+	<h3>
+		{projeto.link ? (
+			<a href={projeto.link} target="_blank" rel="noopener">{projeto.nome}</a>
+		) : (
+			projeto.nome
+		)}
+	</h3>
+	<p class="descricao">{projeto.descricao}</p>
+	<ul class="badges">
+		{projeto.tecnologias.map((t) => <li class="badge">{t}</li>)}
 	</ul>
-</Tag>
+</article>
 
 <style>
 	.projeto {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		padding: 1.5rem;
-		color: inherit;
-		text-decoration: none;
-	}
-	.topo {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 1rem;
+		padding: 32px;
+		border: 1px solid var(--hairline);
+		border-radius: 12px;
+		background: var(--canvas);
 	}
 	.status {
-		display: inline-flex;
+		display: flex;
 		align-items: center;
-		gap: 0.4rem;
-		color: var(--text-subtle);
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.04em;
+		gap: 8px;
+		margin-bottom: 20px;
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
 		text-transform: uppercase;
 	}
 	.status::before {
 		content: '';
-		width: 7px;
-		height: 7px;
+		width: 6px;
+		height: 6px;
 		border-radius: 50%;
-		background: var(--text-subtle);
-	}
-	.status.ativo {
-		color: var(--accent-2);
+		background: var(--muted-soft);
 	}
 	.status.ativo::before {
-		background: var(--accent-2);
-		box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-2) 25%, transparent);
-	}
-	.seta {
-		display: grid;
-		color: var(--text-subtle);
-		transition:
-			transform 0.2s ease,
-			color 0.2s ease;
-	}
-	a.projeto:hover .seta {
-		transform: translateX(3px);
-		color: var(--accent);
+		background: var(--teal);
 	}
 	h3 {
-		margin-bottom: 0.4rem;
-		font-family: var(--font-mono);
-		font-size: 1.1rem;
-		font-weight: 600;
-		letter-spacing: -0.01em;
+		margin-bottom: 12px;
 	}
-	p {
+	h3 a {
+		color: inherit;
+	}
+	.descricao {
 		flex: 1;
-		margin-bottom: 1.25rem;
-		color: var(--text-muted);
-		font-size: 0.95rem;
+		margin-bottom: 24px;
+		color: var(--body);
 	}
 </style>

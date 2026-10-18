@@ -11,8 +11,8 @@ const posts = (await getCollection('blog')).sort(
 
 <Layout title={`Blog — ${SITE_TITLE}`} description="Textos sobre desenvolvimento de software, inteligência artificial e projetos.">
 	<header class="page-header">
-		<span class="eyebrow">Blog</span>
-		<h1>Escritos</h1>
+		<span class="caption">Blog</span>
+		<h1><em>Escritos</em>.</h1>
 		<p>Notas sobre desenvolvimento de software, inteligência artificial e o que estou aprendendo pelo caminho.</p>
 	</header>
 	<PostList posts={posts} />

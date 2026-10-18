@@ -1,0 +1,52 @@
+---
+// Faixa terracota antes do rodapé, convidando para conversar.
+import { LINKEDIN_URL } from '../consts';
+import Icon from './Icon.astro';
+---
+
+<section class="convite">
+	<div>
+		<h2>Vamos conversar?</h2>
+		<p>Se você também está levando agentes de IA para produtos de verdade, quero trocar ideia.</p>
+	</div>
+	<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="btn">
+		<Icon name="linkedin" size={16} /> Falar no LinkedIn
+	</a>
+</section>
+
+<style>
+	.convite {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 32px;
+		margin-top: var(--section);
+		padding: 64px;
+		border-radius: 12px;
+		/* Terracota mais profunda que o botão: mantém o texto branco legível nos dois temas */
+		background: #a9583e;
+		color: #fff;
+	}
+	h2 {
+		margin-bottom: 8px;
+		color: #fff;
+	}
+	p {
+		max-width: 520px;
+		margin: 0;
+		font-size: 1.125rem;
+	}
+	.btn {
+		flex-shrink: 0;
+		border-color: transparent;
+		background: #faf9f5;
+		color: #141413;
+	}
+	@media (max-width: 760px) {
+		.convite {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 40px 28px;
+		}
+	}
+</style>

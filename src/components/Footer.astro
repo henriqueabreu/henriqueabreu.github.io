@@ -1,58 +1,96 @@
 ---
 import { GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
-import Icon from './Icon.astro';
 
 const today = new Date();
 ---
 
 <footer>
 	<div class="conteudo">
-		<p>&copy; {today.getFullYear()} {SITE_TITLE} · Feito com Astro, publicado no GitHub Pages.</p>
-		<div class="social">
-			<a href={GITHUB_URL} target="_blank" rel="noopener">
-				<span class="sr-only">GitHub</span>
-				<Icon name="github" size={18} />
-			</a>
-			<a href={LINKEDIN_URL} target="_blank" rel="noopener">
-				<span class="sr-only">LinkedIn</span>
-				<Icon name="linkedin" size={18} />
-			</a>
-			<a href="/rss.xml">
-				<span class="sr-only">RSS</span>
-				<Icon name="rss" size={18} />
-			</a>
+		<div class="assinatura">
+			<p class="marca">{SITE_TITLE}<span>.</span></p>
+			<p>Escrito em Salvador, Bahia, entre um commit e outro.</p>
+		</div>
+		<div class="coluna">
+			<p class="titulo">Navegar</p>
+			<a href="/">Início</a>
+			<a href="/blog">Blog</a>
+			<a href="/projetos">Projetos</a>
+			<a href="/sobre">Sobre</a>
+		</div>
+		<div class="coluna">
+			<p class="titulo">Contato</p>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
+			<a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
+			<a href="/rss.xml">RSS</a>
 		</div>
 	</div>
+	<p class="copy">&copy; {today.getFullYear()} {SITE_TITLE}. Feito à mão com Astro.</p>
 </footer>
 <style>
 	footer {
-		border-top: 1px solid var(--border);
+		background: var(--dark);
+		color: var(--on-dark-soft);
+		font-size: 14px;
 	}
 	.conteudo {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		gap: 1rem;
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr;
+		gap: 48px;
 		max-width: var(--max);
 		margin: 0 auto;
-		padding: 2rem 1.25rem;
-		color: var(--text-subtle);
-		font-size: 0.875rem;
+		padding: 64px 24px 48px;
 	}
 	p {
 		margin: 0;
 	}
-	.social {
+	.marca {
+		margin-bottom: 8px;
+		color: var(--on-dark);
+		font-family: var(--font-serif);
+		font-size: 1.75rem;
+		letter-spacing: -0.02em;
+	}
+	.marca span {
+		color: var(--primary);
+	}
+	.coluna {
 		display: flex;
-		gap: 1rem;
+		flex-direction: column;
+		gap: 8px;
 	}
-	.social a {
-		display: grid;
-		color: var(--text-subtle);
-		transition: color 0.15s ease;
+	.titulo {
+		margin-bottom: 4px;
+		color: var(--on-dark);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
 	}
-	.social a:hover {
-		color: var(--text);
+	a {
+		color: var(--on-dark-soft);
+		text-decoration: none;
+	}
+	a:hover {
+		color: var(--on-dark);
+	}
+	.copy {
+		max-width: var(--max);
+		margin: 0 auto;
+		padding: 24px;
+		border-top: 1px solid var(--dark-elevated);
+		font-size: 13px;
+	}
+	@media (max-width: 640px) {
+		.conteudo {
+			grid-template-columns: 1fr 1fr;
+			gap: 32px;
+			padding: 48px 16px 32px;
+		}
+		.assinatura {
+			grid-column: 1 / -1;
+		}
+		.copy {
+			padding: 24px 16px;
+		}
 	}
 </style>

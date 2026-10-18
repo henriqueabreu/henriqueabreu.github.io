@@ -1,4 +1,5 @@
 ---
+import Convite from '../components/Convite.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { SITE_TITLE } from '../consts';
 import { PROJETOS } from '../data/projetos';
@@ -7,19 +8,30 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title={`Projetos — ${SITE_TITLE}`} description="Projetos em que trabalho ou trabalhei.">
 	<header class="page-header">
-		<span class="eyebrow">Projetos</span>
-		<h1>O que estou construindo</h1>
+		<span class="caption">Projetos</span>
+		<h1>O que estou <em>construindo</em>.</h1>
 		<p>Produtos, experimentos e estudos, a maioria girando em torno de agentes e IA aplicada.</p>
 	</header>
 	<div class="grade">
 		{PROJETOS.map((p) => <ProjectCard projeto={p} />)}
 	</div>
+	<Convite />
 </Layout>
 
 <style>
 	.grade {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 1rem;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+	@media (max-width: 1024px) {
+		.grade {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	@media (max-width: 640px) {
+		.grade {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>
