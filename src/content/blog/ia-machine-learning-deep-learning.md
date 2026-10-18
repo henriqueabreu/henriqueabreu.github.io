@@ -1,6 +1,6 @@
 ---
 title: 'IA, Machine Learning e Deep Learning: qual é a diferença (e por que isso importa para quem programa)'
-description: 'IA, ML e DL explicados como bonecas russas, e o que muda na cabeça de quem escreve código quando regras dão lugar a exemplos.'
+description: 'IA, ML e DL explicados como potes que se guardam um dentro do outro, e o que muda na cabeça de quem escreve código quando regras dão lugar a exemplos.'
 pubDate: '2026-10-18'
 ---
 
@@ -8,9 +8,9 @@ Se você já leu uma notícia dizendo que "a IA vai mudar tudo" e, na mesma pág
 
 Estou cursando *Fundamentos de IA e LLMs para Programadores* e, no Módulo 02, o tema é justamente esse. Aqui vai a minha tradução do assunto, pensando em quem escreve código no dia a dia.
 
-## Três conceitos, uma relação de "bonecas russas"
+## Três conceitos, um dentro do outro
 
-A forma mais simples de lembrar é uma hierarquia:
+Pense naqueles potes de cozinha que a gente guarda um dentro do outro: o maior abriga o médio, que abriga o menor. A forma mais simples de lembrar é essa hierarquia:
 
 - **Inteligência Artificial (IA)** é o guarda-chuva: qualquer técnica que faça uma máquina executar tarefas que normalmente exigiriam inteligência humana.
 - **Machine Learning (ML)** é um subconjunto da IA: em vez de programarmos todas as regras à mão, o sistema *aprende padrões a partir de dados*.
