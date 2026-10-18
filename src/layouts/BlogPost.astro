@@ -4,17 +4,23 @@ import type { CollectionEntry } from 'astro:content';
 import avatar from '../assets/avatar.jpg';
 import FormattedDate from '../components/FormattedDate.astro';
 import { AUTOR, SITE_TITLE } from '../consts';
+import { nomesDasCategorias } from '../lib/blog';
+import { slugificar } from '../lib/slug';
 import Layout from './Layout.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & { id: string };
 
-const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { id, title, description, pubDate, updatedDate, heroImage, categoria, tags } = Astro.props;
+const nomeCategoria = await nomesDasCategorias();
 ---
 
 <Layout title={`${title} — ${SITE_TITLE}`} description={description} image={heroImage ?? `/og/${id}.png`}>
 	<article>
 		<header>
-			<a href="/blog" class="voltar">← Escritos</a>
+			<p class="topo">
+				<a href="/blog" class="voltar">← Escritos</a>
+				{categoria && <a href={`/blog/categoria/${categoria}/`} class="categoria">{nomeCategoria(categoria)}</a>}
+			</p>
 			<h1>{title}</h1>
 			<p class="descricao">{description}</p>
 			<div class="meta">
@@ -34,6 +40,16 @@ const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<div class="prose">
 			<slot />
 		</div>
+		{tags.length > 0 && (
+			<footer class="tags">
+				<span class="caption">Assuntos</span>
+				<ul class="badges">
+					{tags.map((t) => (
+						<li><a href={`/blog/tag/${slugificar(t)}/`} class="badge">{t}</a></li>
+					))}
+				</ul>
+			</footer>
+		)}
 	</article>
 </Layout>
 
@@ -47,11 +63,29 @@ const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		padding-bottom: 32px;
 		border-bottom: 1px solid var(--hairline);
 	}
-	.voltar {
-		display: inline-block;
+	.topo {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
 		margin-bottom: 40px;
-		color: var(--muted);
 		font-size: 14px;
+	}
+	.voltar {
+		color: var(--muted);
+		text-decoration: none;
+	}
+	.categoria {
+		color: var(--primary-active);
+		font-weight: 500;
+		text-decoration: none;
+	}
+	.tags {
+		margin-top: 64px;
+		padding-top: 32px;
+		border-top: 1px solid var(--hairline);
+	}
+	.tags a {
+		display: inline-block;
 		text-decoration: none;
 	}
 	.descricao {

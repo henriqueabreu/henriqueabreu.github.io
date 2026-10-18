@@ -1,0 +1,52 @@
+---
+// Barra de categorias do blog: "Todos" + uma aba por categoria com posts.
+interface Props {
+	categorias: { slug: string; nome: string; total: number }[];
+	total: number;
+	/** Slug da categoria aberta; vazio na página "Todos" */
+	atual?: string;
+}
+
+const { categorias, total, atual } = Astro.props;
+---
+
+<nav class="filtro" aria-label="Categorias">
+	<a href="/blog/" class:list={{ ativa: !atual }} aria-current={!atual ? 'page' : undefined}>
+		Todos <span>{total}</span>
+	</a>
+	{categorias.map((c) => (
+		<a
+			href={`/blog/categoria/${c.slug}/`}
+			class:list={{ ativa: atual === c.slug }}
+			aria-current={atual === c.slug ? 'page' : undefined}
+		>
+			{c.nome} <span>{c.total}</span>
+		</a>
+	))}
+</nav>
+
+<style>
+	.filtro {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		margin-bottom: 32px;
+	}
+	a {
+		padding: 8px 14px;
+		border-radius: 8px;
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1.4;
+		text-decoration: none;
+	}
+	a span {
+		margin-left: 2px;
+		color: var(--muted-soft);
+	}
+	a.ativa {
+		background: var(--surface-card);
+		color: var(--ink);
+	}
+</style>

@@ -1,6 +1,7 @@
 ---
 // Lista de posts em estilo de índice de revista: data, título em serifa e resumo.
 import type { CollectionEntry } from 'astro:content';
+import { nomesDasCategorias } from '../lib/blog';
 import FormattedDate from './FormattedDate.astro';
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const { posts } = Astro.props;
+const nomeCategoria = await nomesDasCategorias();
 ---
 
 <ul class="posts">
@@ -16,6 +18,7 @@ const { posts } = Astro.props;
 			<a href={`/blog/${post.id}/`}>
 				<span class="data">
 					<FormattedDate date={post.data.pubDate} />
+					{post.data.categoria && <span class="categoria">{nomeCategoria(post.data.categoria)}</span>}
 				</span>
 				<span class="texto">
 					<span class="titulo">{post.data.title}</span>
@@ -49,6 +52,13 @@ const { posts } = Astro.props;
 		color: var(--muted);
 		font-size: 14px;
 	}
+	.categoria {
+		display: block;
+		margin-top: 2px;
+		color: var(--primary-active);
+		font-size: 13px;
+		font-weight: 500;
+	}
 	.texto {
 		display: grid;
 		gap: 6px;
@@ -74,6 +84,10 @@ const { posts } = Astro.props;
 		}
 		.data {
 			padding: 0;
+		}
+		.categoria {
+			display: inline;
+			margin: 0 0 0 8px;
 		}
 	}
 </style>

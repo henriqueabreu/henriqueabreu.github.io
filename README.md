@@ -15,25 +15,31 @@ npm run dev      # abre em http://localhost:4321
 
 ## Escrever um post
 
-Crie um arquivo `.md` (ou `.mdx`, para usar componentes) em `src/content/blog/`:
+Os posts ficam num banco Postgres no [Supabase](https://supabase.com). O site
+busca o conteúdo na hora do build e continua estático no GitHub Pages.
 
-```md
----
-title: 'Título do post'
-description: 'Resumo de uma linha'
-pubDate: '2026-10-17'
----
+1. No Supabase, abra **Table Editor → posts → Insert row** e preencha:
+   - `slug`: vira o endereço (`meu-post` → `/blog/meu-post/`), só letras minúsculas, números e hífens;
+   - `titulo`, `descricao` e `conteudo` (o texto, em Markdown);
+   - `categoria_id`: escolha na lista (as categorias ficam na tabela `categorias`);
+   - `tags`: lista, por exemplo `{llms,python}`;
+   - `status`: `publicado` (ou `rascunho`, que nunca aparece) e `publicado_em`.
+2. Republique: aba **Actions → Publicar no GitHub Pages → Run workflow**.
+   Se não fizer nada, o site republica sozinho todo dia às 6h.
 
-Texto em Markdown...
-```
+Um post com `publicado_em` no futuro fica **agendado**: entra no ar na primeira
+publicação a partir daquela data.
 
-O nome do arquivo vira o endereço: `meu-post.md` → `/blog/meu-post/`.
+Posts que usam componentes (como os diagramas) continuam como arquivos `.mdx` em
+`src/content/blog/`, com `categoria` e `tags` no frontmatter. Os dois tipos
+aparecem juntos no blog. O esquema do banco está em `supabase/schema.sql`.
+
+Para rodar com o banco na sua máquina, copie `.env.example` para `.env` e
+preencha com a URL e a chave pública do projeto (Project Settings → API). Sem o
+`.env`, o site sobe só com os posts em arquivo.
 
 Cada post ganha sozinho uma capa de compartilhamento (a imagem que aparece no
-LinkedIn e no WhatsApp), gerada no build em `/og/meu-post.png` a partir do título.
-
-Para colocar um diagrama no meio do texto, use `.mdx` e importe o componente logo
-abaixo do frontmatter, como em `src/content/blog/ia-machine-learning-deep-learning.mdx`.
+LinkedIn e no WhatsApp), gerada no build em `/og/<slug>.png` a partir do título.
 Os diagramas ficam em `src/components/diagramas/`.
 
 ## Onde mexer
@@ -46,6 +52,8 @@ Os diagramas ficam em `src/components/diagramas/`.
 | Sobre (texto) | `src/pages/sobre.astro` |
 | Trajetória e ferramentas do Sobre | `src/data/trajetoria.ts` |
 | Lista de projetos (`destaque: true` aparece na home) | `src/data/projetos.ts` |
+| Leitura do banco e junção com os arquivos | `src/content.config.ts`, `src/lib/supabase.ts` |
+| Páginas de categoria e de tag | `src/pages/blog/categoria/`, `src/pages/blog/tag/` |
 | Foto | `src/assets/avatar.jpg` |
 | Menu e rodapé | `src/components/Header.astro`, `Footer.astro` |
 | Cores e tipografia (tema claro e escuro) | `src/styles/global.css` |
@@ -57,6 +65,8 @@ Os diagramas ficam em `src/components/diagramas/`.
 ## Publicação
 
 Todo push na branch `main` dispara `.github/workflows/deploy.yml`, que gera o
-site e publica no GitHub Pages. O repositório precisa se chamar
+site e publica no GitHub Pages. Ele também roda todo dia às 6h e pode ser
+disparado na mão pela aba Actions. As chaves do Supabase vêm dos secrets
+`SUPABASE_URL` e `SUPABASE_ANON_KEY` do repositório. O repositório precisa se chamar
 `henriqueabreu.github.io`, e em **Settings → Pages → Source** deve estar
 selecionado **GitHub Actions**.

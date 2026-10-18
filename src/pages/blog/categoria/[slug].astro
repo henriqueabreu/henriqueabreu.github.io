@@ -1,0 +1,34 @@
+---
+import FiltroBlog from '../../../components/FiltroBlog.astro';
+import PostList from '../../../components/PostList.astro';
+import { SITE_TITLE } from '../../../consts';
+import Layout from '../../../layouts/Layout.astro';
+import { categoriasEmUso, postsOrdenados } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+	const posts = await postsOrdenados();
+	const categorias = await categoriasEmUso(posts);
+	return categorias.map((categoria) => ({
+		params: { slug: categoria.slug },
+		props: {
+			categoria,
+			categorias,
+			total: posts.length,
+			posts: posts.filter((p) => p.data.categoria === categoria.slug),
+		},
+	}));
+}
+
+const { categoria, categorias, total, posts } = Astro.props;
+const descricao = categoria.descricao ?? `Posts sobre ${categoria.nome.toLowerCase()}.`;
+---
+
+<Layout title={`${categoria.nome} — ${SITE_TITLE}`} description={descricao}>
+	<header class="page-header">
+		<span class="caption">Categoria</span>
+		<h1>{categoria.nome}<em>.</em></h1>
+		<p>{descricao}</p>
+	</header>
+	<FiltroBlog categorias={categorias} total={total} atual={categoria.slug} />
+	<PostList posts={posts} />
+</Layout>

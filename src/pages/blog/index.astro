@@ -1,12 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
+import FiltroBlog from '../../components/FiltroBlog.astro';
 import PostList from '../../components/PostList.astro';
 import { SITE_TITLE } from '../../consts';
 import Layout from '../../layouts/Layout.astro';
+import { categoriasEmUso, postsOrdenados, tagsEmUso } from '../../lib/blog';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = await postsOrdenados();
+const categorias = await categoriasEmUso(posts);
+const tags = tagsEmUso(posts);
 ---
 
 <Layout title={`Blog — ${SITE_TITLE}`} description="Textos sobre desenvolvimento de software, inteligência artificial e projetos.">
@@ -15,5 +16,26 @@ const posts = (await getCollection('blog')).sort(
 		<h1><em>Escritos</em>.</h1>
 		<p>Notas sobre desenvolvimento de software, inteligência artificial e o que estou aprendendo pelo caminho.</p>
 	</header>
+	<FiltroBlog categorias={categorias} total={posts.length} />
 	<PostList posts={posts} />
+	{tags.length > 0 && (
+		<section class="tags">
+			<span class="caption">Assuntos</span>
+			<ul class="badges">
+				{tags.map((t) => (
+					<li><a href={`/blog/tag/${t.slug}/`} class="badge">{t.nome}</a></li>
+				))}
+			</ul>
+		</section>
+	)}
 </Layout>
+
+<style>
+	.tags {
+		margin-top: 64px;
+	}
+	.tags a {
+		display: inline-block;
+		text-decoration: none;
+	}
+</style>

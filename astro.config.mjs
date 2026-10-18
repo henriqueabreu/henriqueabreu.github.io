@@ -3,10 +3,13 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+// Chaves do Supabase na sua máquina ficam em .env (fora do git); no GitHub vêm dos secrets.
+if (existsSync('.env')) process.loadEnvFile('.env');
 
 // As imagens de prévia (src/og) são desenhadas pelo sharp, que acha fontes pelo fontconfig.
 // Aponta o fontconfig para a pasta de fontes do projeto, para a capa sair igual em qualquer máquina.

@@ -1,0 +1,32 @@
+---
+import PostList from '../../../components/PostList.astro';
+import { SITE_TITLE } from '../../../consts';
+import Layout from '../../../layouts/Layout.astro';
+import { postsOrdenados, tagsEmUso } from '../../../lib/blog';
+import { slugificar } from '../../../lib/slug';
+
+export async function getStaticPaths() {
+	const posts = await postsOrdenados();
+	return tagsEmUso(posts).map((tag) => ({
+		params: { tag: tag.slug },
+		props: { nome: tag.nome, posts: posts.filter((p) => p.data.tags.some((t) => slugificar(t) === tag.slug)) },
+	}));
+}
+
+const { nome, posts } = Astro.props;
+---
+
+<Layout title={`${nome} — ${SITE_TITLE}`} description={`Posts com a tag ${nome}.`}>
+	<header class="page-header">
+		<a href="/blog/" class="caption voltar">← Todos os posts</a>
+		<h1><em>#</em>{nome}</h1>
+		<p>{posts.length === 1 ? '1 post' : `${posts.length} posts`} sobre {nome}.</p>
+	</header>
+	<PostList posts={posts} />
+</Layout>
+
+<style>
+	.voltar {
+		text-decoration: none;
+	}
+</style>

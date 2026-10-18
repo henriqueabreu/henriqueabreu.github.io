@@ -6,6 +6,13 @@ on:
     branches: [main]
   # Permite disparar manualmente pela aba Actions do GitHub
   workflow_dispatch:
+  # Todo dia às 6h (Brasília): publica posts agendados e mantém o Supabase ativo
+  schedule:
+    - cron: '0 9 * * *'
+  # Gatilho externo, para republicar logo depois de mudar algo no banco:
+  # POST /repos/henriqueabreu/henriqueabreu.github.io/dispatches {"event_type": "conteudo-atualizado"}
+  repository_dispatch:
+    types: [conteudo-atualizado]
 
 permissions:
   contents: read
@@ -15,6 +22,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Configurados em Settings → Secrets and variables → Actions
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
     steps:
       - name: Baixar o repositório
         uses: actions/checkout@v7
