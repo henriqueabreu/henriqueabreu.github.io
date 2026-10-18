@@ -15,6 +15,11 @@ export const TRAJETORIA: Etapa[] = [
 		descricao: 'Construindo o howia e o product-owner-ai, e estudando RAG do zero.',
 	},
 	{
+		periodo: 'Em curso',
+		titulo: 'Pós-graduação em Engenharia de IA Aplicada',
+		lugar: 'Ênfase em Engenharia de Software',
+	},
+	{
 		periodo: '2014',
 		titulo: 'Graduação em Engenharia de Computação',
 		lugar: 'Instituto Federal do Ceará (IFCE)',
