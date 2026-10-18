@@ -43,6 +43,7 @@ O nome do arquivo vira o endereço: `meu-post.md` → `/blog/meu-post/`.
 | Menu e rodapé | `src/components/Header.astro`, `Footer.astro` |
 | Cores e tipografia (tema claro e escuro) | `src/styles/global.css` |
 | Faixa "Vamos conversar?" | `src/components/Convite.astro` |
+| Fundo animado de fibra ótica (cores, nº de fibras, velocidade) | `src/components/FibraOtica.astro` |
 | Fontes | `astro.config.mjs` |
 
 ## Publicação

@@ -1,0 +1,236 @@
+---
+// Fundo animado em WebGL: feixes de fibra ótica com pulsos de luz correndo por dentro
+// e pontas que acendem onde cada fibra termina.
+// Fica atrás do conteúdo do elemento pai (que precisa de position: relative).
+// Sem WebGL, ou com "reduzir movimento" ligado no sistema, mostra um quadro parado.
+interface Props {
+	/** Cores: duas principais das fibras, núcleo dos pulsos (mais claro) e uma de destaque, rara */
+	cores?: [string, string, string, string];
+	fundo?: string;
+	/** Fios por feixe, de 3 a 14 */
+	fios?: number;
+	velocidade?: number;
+}
+
+const { cores = ['#cc785c', '#faf9f5', '#e8a55a', '#5db8a6'], fundo = '#181715', fios = 11, velocidade = 1 } = Astro.props;
+---
+
+<canvas
+	class="fibra-otica"
+	aria-hidden="true"
+	data-cores={cores.join(',')}
+	data-fundo={fundo}
+	data-fios={fios}
+	data-velocidade={velocidade}></canvas>
+
+<script>
+	const VERT = `
+		attribute vec2 aPos;
+		void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
+	`;
+
+	const FRAG = `
+		precision mediump float;
+		uniform vec2 uRes;
+		uniform float uTime;
+		uniform float uFios;
+		uniform vec3 uC0;
+		uniform vec3 uC1;
+		uniform vec3 uC2;
+		uniform vec3 uC3;
+		uniform vec3 uBg;
+
+		float hash(float n) {
+			return fract(sin(n * 12.9898) * 43758.5453);
+		}
+
+		// 0 na origem do feixe (fora da tela), 1 do outro lado
+		float distancia(float lx, float aspecto, float fb) {
+			return clamp((lx + 0.5 * aspecto + 0.15 * fb) / (aspecto + 0.3), 0.0, 1.0);
+		}
+
+		// Altura da fibra em cada ponto x: o feixe nasce junto e vai se abrindo em leque
+		float fibraY(float x, float lado, float aspecto, float fb, float fi, float t) {
+			float dist = distancia(x * lado, aspecto, fb);
+			float centro = mix(-0.2, 0.22, fb / 2.0) + 0.04 * sin(t * 0.09 + fb * 1.9);
+			float abertura = (0.012 + 0.42 * dist * dist) * (0.9 + 0.1 * sin(t * 0.23 + fb * 2.3));
+			return centro + (fb - 1.0) * 0.08 * x + fi * abertura
+				+ 0.035 * sin(x * 1.7 + t * 0.21 + fb * 1.3 + fi * 1.1) * dist
+				+ 0.01 * sin(x * 4.1 - t * 0.3 + fi * 3.7 + fb);
+		}
+
+		void main() {
+			// y vai de -0.5 a 0.5; x acompanha a proporção da tela
+			vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+			float aspecto = uRes.x / uRes.y;
+			vec3 luz = vec3(0.0);
+
+			for (int b = 0; b < 3; b++) {
+				float fb = float(b);
+				// Dois feixes saem da esquerda e um da direita
+				float lado = b == 1 ? -1.0 : 1.0;
+				float lx = uv.x * lado;
+
+				for (int i = 0; i < 14; i++) {
+					if (float(i) >= uFios) break;
+					float fi = float(i) / max(uFios - 1.0, 1.0) - 0.5;
+					float semente = fb * 17.0 + float(i) * 3.1;
+					float h1 = hash(semente);
+					float h2 = hash(semente + 1.7);
+					float h3 = hash(semente + 4.2);
+
+					// Cada fibra termina num ponto diferente, onde a luz sai pela ponta
+					float xFim = aspecto * (0.12 + 0.36 * h1);
+					float antesDoFim = smoothstep(xFim + 0.004, xFim - 0.01, lx);
+
+					vec3 cor = mix(uC0, uC2, step(0.5, h2));
+					cor = mix(cor, uC3, step(0.82, h3));
+
+					float y = fibraY(uv.x, lado, aspecto, fb, fi, uTime);
+					float d = abs(uv.y - y);
+
+					// Corpo da fibra: um fio fino e quase apagado
+					float wc = 0.0008;
+					float corpo = wc / (d + wc);
+					luz += cor * corpo * corpo * 0.045 * antesDoFim;
+
+					// Pulso de luz correndo da origem até a ponta, com cauda
+					float vel = 0.1 + 0.16 * h2;
+					float q = fract(lx * 1.1 - uTime * vel + h3 * 10.0) - 0.5;
+					float pulso = q > 0.0 ? exp(-q * q * 1400.0) : exp(q * 11.0);
+					float halo = 0.0035 / (d + 0.0035);
+					float nucleo = exp(-d * 2600.0);
+					luz += pulso * antesDoFim * (cor * halo * halo * 0.4 + uC1 * nucleo * 0.8);
+
+					// Ponta acesa, cintilando devagar
+					float yFim = fibraY(xFim * lado, lado, aspecto, fb, fi, uTime);
+					float dp = length(vec2(uv.x - xFim * lado, uv.y - yFim));
+					float cintila = 0.55 + 0.45 * sin(uTime * (0.8 + 1.6 * h2) + h3 * 6.283);
+					float ponta = 0.005 / (dp + 0.005);
+					luz += (cor * ponta * ponta * 0.5 + uC1 * exp(-dp * 1100.0) * 0.7) * cintila;
+				}
+			}
+
+			// Some suavemente no topo e na base
+			luz *= smoothstep(0.62, 0.3, abs(uv.y));
+			vec3 col = uBg + (1.0 - exp(-luz * 2.0));
+			gl_FragColor = vec4(col, 1.0);
+		}
+	`;
+
+	function hexParaRgb(hex: string): [number, number, number] {
+		const n = parseInt(hex.replace('#', ''), 16);
+		return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+	}
+
+	function compilar(gl: WebGLRenderingContext, tipo: number, fonte: string) {
+		const s = gl.createShader(tipo)!;
+		gl.shaderSource(s, fonte);
+		gl.compileShader(s);
+		if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) ?? 'shader');
+		return s;
+	}
+
+	function iniciar(canvas: HTMLCanvasElement) {
+		const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+		if (!gl) return;
+
+		const prog = gl.createProgram()!;
+		try {
+			gl.attachShader(prog, compilar(gl, gl.VERTEX_SHADER, VERT));
+			gl.attachShader(prog, compilar(gl, gl.FRAGMENT_SHADER, FRAG));
+		} catch {
+			return;
+		}
+		gl.linkProgram(prog);
+		gl.useProgram(prog);
+
+		const buf = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+		const aPos = gl.getAttribLocation(prog, 'aPos');
+		gl.enableVertexAttribArray(aPos);
+		gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+		const u = (n: string) => gl.getUniformLocation(prog, n);
+		const [c0, c1, c2, c3] = (canvas.dataset.cores ?? '').split(',').map(hexParaRgb);
+		gl.uniform3fv(u('uC0'), c0);
+		gl.uniform3fv(u('uC1'), c1);
+		gl.uniform3fv(u('uC2'), c2);
+		gl.uniform3fv(u('uC3'), c3);
+		gl.uniform3fv(u('uBg'), hexParaRgb(canvas.dataset.fundo ?? '#181715'));
+		gl.uniform1f(u('uFios'), Math.min(14, Math.max(3, Number(canvas.dataset.fios) || 11)));
+		const uRes = u('uRes');
+		const uTime = u('uTime');
+		const velocidade = Number(canvas.dataset.velocidade) || 1;
+
+		const ajustar = () => {
+			const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+			const w = Math.round(canvas.clientWidth * dpr);
+			const h = Math.round(canvas.clientHeight * dpr);
+			if (canvas.width !== w || canvas.height !== h) {
+				canvas.width = w;
+				canvas.height = h;
+				gl.viewport(0, 0, w, h);
+				gl.uniform2f(uRes, w, h);
+			}
+		};
+
+		const desenhar = (t: number) => {
+			ajustar();
+			gl.uniform1f(uTime, t);
+			gl.drawArrays(gl.TRIANGLES, 0, 3);
+		};
+
+		const parado = matchMedia('(prefers-reduced-motion: reduce)');
+		let visivel = true;
+		let quadro = 0;
+		let tempo = 12;
+		let ultimo = 0;
+
+		const loop = (agora: number) => {
+			const dt = ultimo ? Math.min((agora - ultimo) / 1000, 0.1) : 0;
+			ultimo = agora;
+			tempo += dt * velocidade;
+			desenhar(tempo);
+			quadro = requestAnimationFrame(loop);
+		};
+		const tocar = () => {
+			cancelAnimationFrame(quadro);
+			ultimo = 0;
+			if (parado.matches || !visivel || document.hidden) {
+				desenhar(tempo);
+				return;
+			}
+			quadro = requestAnimationFrame(loop);
+		};
+
+		// Só anima enquanto o fundo está na tela e a aba está aberta
+		new IntersectionObserver(([e]) => {
+			visivel = e.isIntersecting;
+			tocar();
+		}).observe(canvas);
+		document.addEventListener('visibilitychange', tocar);
+		parado.addEventListener('change', tocar);
+		new ResizeObserver(() => desenhar(tempo)).observe(canvas);
+		tocar();
+		canvas.classList.add('pronto');
+	}
+
+	document.querySelectorAll<HTMLCanvasElement>('canvas.fibra-otica').forEach(iniciar);
+</script>
+
+<style>
+	.fibra-otica {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		opacity: 0;
+		transition: opacity 1.2s ease;
+	}
+	.fibra-otica:global(.pronto) {
+		opacity: 1;
+	}
+</style>

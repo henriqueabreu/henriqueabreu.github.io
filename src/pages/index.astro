@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import avatar from '../assets/avatar.jpg';
 import Convite from '../components/Convite.astro';
+import FibraOtica from '../components/FibraOtica.astro';
 import Icon from '../components/Icon.astro';
 import PostList from '../components/PostList.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -20,7 +21,10 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<section class="hero">
+	<section class="hero-faixa">
+		<FibraOtica />
+		<div class="hero-veu" aria-hidden="true"></div>
+		<div class="hero">
 		<div>
 			<div class="autor">
 				<Image src={avatar} alt="" width={96} height={96} loading="eager" />
@@ -44,6 +48,7 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 			</div>
 		</div>
 		<Terminal />
+		</div>
 	</section>
 
 	<section class="section agora">
@@ -84,7 +89,26 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 </Layout>
 
 <style>
+	/* Faixa escura de ponta a ponta, com as fibras óticas atrás */
+	.hero-faixa {
+		position: relative;
+		width: 100vw;
+		margin: -72px 0 0 calc(50% - 50vw);
+		overflow: hidden;
+		background: #181715;
+		color: #cfcbc3;
+	}
+	/* Escurece o lado do texto para manter a leitura */
+	.hero-veu {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, rgba(24, 23, 21, 0.88) 0%, rgba(24, 23, 21, 0.6) 40%, rgba(24, 23, 21, 0) 62%);
+	}
 	.hero {
+		position: relative;
+		max-width: var(--max);
+		margin: 0 auto;
+		padding: 96px 24px;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		align-items: center;
@@ -105,17 +129,24 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 		border-radius: 50%;
 		object-fit: cover;
 	}
+	.autor {
+		color: #a09d96;
+	}
 	.autor strong {
 		display: block;
-		color: var(--ink);
+		color: #faf9f5;
 		font-weight: 500;
 	}
 	h1 {
 		margin-bottom: 24px;
+		color: #faf9f5;
+	}
+	h1 em {
+		color: #e09a80;
 	}
 	.lead {
 		margin-bottom: 32px;
-		color: var(--body);
+		color: #cfcbc3;
 		font-size: 1.125rem;
 		line-height: 1.6;
 	}
@@ -123,6 +154,17 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 		display: flex;
 		flex-wrap: wrap;
 		gap: 12px;
+	}
+	.ctas .btn:not(.btn-primary) {
+		border-color: rgba(250, 249, 245, 0.14);
+		background: rgba(37, 35, 32, 0.7);
+		color: #faf9f5;
+	}
+	.hero :global(.terminal) {
+		border: 1px solid rgba(250, 249, 245, 0.08);
+		background: rgba(16, 15, 14, 0.72);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
 	}
 
 	.agora {
@@ -158,6 +200,10 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 		.hero {
 			grid-template-columns: 1fr;
 			gap: 48px;
+			padding: 64px 24px;
+		}
+		.hero-veu {
+			background: linear-gradient(180deg, rgba(24, 23, 21, 0.85) 0%, rgba(24, 23, 21, 0.55) 55%, rgba(24, 23, 21, 0.2) 100%);
 		}
 		.agora-grade {
 			grid-template-columns: 1fr;
@@ -165,6 +211,9 @@ const destaques = PROJETOS.filter((p) => p.destaque).slice(0, 3);
 		}
 	}
 	@media (max-width: 640px) {
+		.hero {
+			padding: 48px 16px;
+		}
 		.agora {
 			padding: 32px 24px;
 		}
