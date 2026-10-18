@@ -1,0 +1,93 @@
+---
+import type { Projeto } from '../data/projetos';
+import Icon from './Icon.astro';
+
+interface Props {
+	projeto: Projeto;
+}
+
+const { projeto } = Astro.props;
+const Tag = projeto.link ? 'a' : 'article';
+---
+
+<Tag
+	class:list={['card', 'projeto', { interactive: projeto.link }]}
+	href={projeto.link}
+	target={projeto.link ? '_blank' : undefined}
+	rel={projeto.link ? 'noopener' : undefined}
+>
+	<div class="topo">
+		<span class:list={['status', projeto.status === 'Em andamento' && 'ativo']}>{projeto.status}</span>
+		{projeto.link && <span class="seta"><Icon name="arrow" size={18} /></span>}
+	</div>
+	<h3>{projeto.nome}</h3>
+	<p>{projeto.descricao}</p>
+	<ul class="chips">
+		{projeto.tecnologias.map((t) => <li class="chip">{t}</li>)}
+	</ul>
+</Tag>
+
+<style>
+	.projeto {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding: 1.5rem;
+		color: inherit;
+		text-decoration: none;
+	}
+	.topo {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1rem;
+	}
+	.status {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		color: var(--text-subtle);
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+	.status::before {
+		content: '';
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--text-subtle);
+	}
+	.status.ativo {
+		color: var(--accent-2);
+	}
+	.status.ativo::before {
+		background: var(--accent-2);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-2) 25%, transparent);
+	}
+	.seta {
+		display: grid;
+		color: var(--text-subtle);
+		transition:
+			transform 0.2s ease,
+			color 0.2s ease;
+	}
+	a.projeto:hover .seta {
+		transform: translateX(3px);
+		color: var(--accent);
+	}
+	h3 {
+		margin-bottom: 0.4rem;
+		font-family: var(--font-mono);
+		font-size: 1.1rem;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+	p {
+		flex: 1;
+		margin-bottom: 1.25rem;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+	}
+</style>

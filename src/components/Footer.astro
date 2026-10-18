@@ -1,37 +1,58 @@
 ---
-import { GITHUB_URL, SITE_TITLE } from '../consts';
-import GithubIcon from './GithubIcon.astro';
+import { GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
+import Icon from './Icon.astro';
 
 const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} {SITE_TITLE}
-	<div class="social-links">
-		<a href={GITHUB_URL} target="_blank">
-			<span class="sr-only">Meu GitHub</span>
-			<GithubIcon />
-		</a>
+	<div class="conteudo">
+		<p>&copy; {today.getFullYear()} {SITE_TITLE} · Feito com Astro, publicado no GitHub Pages.</p>
+		<div class="social">
+			<a href={GITHUB_URL} target="_blank" rel="noopener">
+				<span class="sr-only">GitHub</span>
+				<Icon name="github" size={18} />
+			</a>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener">
+				<span class="sr-only">LinkedIn</span>
+				<Icon name="linkedin" size={18} />
+			</a>
+			<a href="/rss.xml">
+				<span class="sr-only">RSS</span>
+				<Icon name="rss" size={18} />
+			</a>
+		</div>
 	</div>
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
+		border-top: 1px solid var(--border);
 	}
-	.social-links {
+	.conteudo {
 		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 1rem;
+		max-width: var(--max);
+		margin: 0 auto;
+		padding: 2rem 1.25rem;
+		color: var(--text-subtle);
+		font-size: 0.875rem;
 	}
-	.social-links a {
-		text-decoration: none;
-		color: rgb(var(--gray));
+	p {
+		margin: 0;
 	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
+	.social {
+		display: flex;
+		gap: 1rem;
+	}
+	.social a {
+		display: grid;
+		color: var(--text-subtle);
+		transition: color 0.15s ease;
+	}
+	.social a:hover {
+		color: var(--text);
 	}
 </style>

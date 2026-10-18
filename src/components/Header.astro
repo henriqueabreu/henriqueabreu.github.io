@@ -1,66 +1,143 @@
 ---
-import { GITHUB_URL, SITE_TITLE } from '../consts';
-import GithubIcon from './GithubIcon.astro';
+import { GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import Icon from './Icon.astro';
 ---
 
 <header>
 	<nav>
-		<h2>
-			<a href="/">{SITE_TITLE}</a>
-		</h2>
-		<div class="internal-links">
+		<a href="/" class="logo">
+			<span class="monograma" aria-hidden="true">HA</span>
+			<span class="nome">{SITE_TITLE}</span>
+		</a>
+		<div class="links">
 			<HeaderLink href="/">Início</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/projetos">Projetos</HeaderLink>
 			<HeaderLink href="/sobre">Sobre</HeaderLink>
 		</div>
-		<div class="social-links">
-			<a href={GITHUB_URL} target="_blank">
-				<span class="sr-only">Meu GitHub</span>
-				<GithubIcon />
+		<div class="acoes">
+			<a href={GITHUB_URL} target="_blank" rel="noopener" class="icone social">
+				<span class="sr-only">GitHub</span>
+				<Icon name="github" size={18} />
 			</a>
+			<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="icone social">
+				<span class="sr-only">LinkedIn</span>
+				<Icon name="linkedin" size={18} />
+			</a>
+			<button type="button" class="icone" id="alternar-tema" aria-label="Alternar tema claro/escuro">
+				<span class="sol"><Icon name="sun" size={18} /></span>
+				<span class="lua"><Icon name="moon" size={18} /></span>
+			</button>
 		</div>
 	</nav>
 </header>
+
+<script>
+	document.getElementById('alternar-tema')?.addEventListener('click', () => {
+		const raiz = document.documentElement;
+		const novo = raiz.dataset.theme === 'dark' ? 'light' : 'dark';
+		raiz.dataset.theme = novo;
+		try {
+			localStorage.setItem('tema', novo);
+		} catch {}
+	});
+</script>
+
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+		background: color-mix(in srgb, var(--bg) 75%, transparent);
+		backdrop-filter: saturate(180%) blur(12px);
+		-webkit-backdrop-filter: saturate(180%) blur(12px);
 	}
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 1rem;
+		max-width: var(--max);
+		height: 64px;
+		margin: 0 auto;
+		padding: 0 1.25rem;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
+	.logo {
 		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		color: var(--text);
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		text-decoration: none;
 	}
-	@media (max-width: 720px) {
-		.social-links {
+	.monograma {
+		display: grid;
+		place-items: center;
+		width: 32px;
+		height: 32px;
+		border-radius: 9px;
+		background: var(--gradient);
+		color: #fff;
+		font-size: 0.8rem;
+		font-weight: 800;
+		letter-spacing: 0;
+	}
+	.links {
+		display: flex;
+		gap: 0.25rem;
+		padding: 0.25rem;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		background: var(--surface);
+	}
+	.acoes {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+	.icone {
+		display: grid;
+		place-items: center;
+		width: 36px;
+		height: 36px;
+		padding: 0;
+		border: 0;
+		border-radius: 10px;
+		background: transparent;
+		color: var(--text-muted);
+		cursor: pointer;
+		transition:
+			color 0.15s ease,
+			background 0.15s ease;
+	}
+	.icone:hover {
+		background: var(--surface-2);
+		color: var(--text);
+	}
+	.icone span {
+		display: grid;
+	}
+	:global(:root[data-theme='dark']) .sol,
+	:global(:root:not([data-theme='dark'])) .lua {
+		display: none;
+	}
+
+	@media (max-width: 760px) {
+		.nome,
+		.social {
 			display: none;
+		}
+	}
+	@media (max-width: 420px) {
+		nav {
+			padding: 0 0.75rem;
+			gap: 0.5rem;
+		}
+		.links {
+			gap: 0;
 		}
 	}
 </style>

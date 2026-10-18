@@ -33,12 +33,15 @@ O nome do arquivo vira o endereço: `meu-post.md` → `/blog/meu-post/`.
 
 | O quê | Arquivo |
 |---|---|
-| Nome, descrição e link do GitHub | `src/consts.ts` |
-| Página inicial | `src/pages/index.astro` |
-| Sobre | `src/pages/sobre.astro` |
-| Lista de projetos | `src/data/projetos.ts` |
+| Nome, cargo, cidade, frase do selo, links | `src/consts.ts` |
+| Página inicial (apresentação e áreas) | `src/pages/index.astro` |
+| Sobre (texto) | `src/pages/sobre.astro` |
+| Trajetória e ferramentas do Sobre | `src/data/trajetoria.ts` |
+| Lista de projetos (`destaque: true` aparece na home) | `src/data/projetos.ts` |
+| Foto | `src/assets/avatar.jpg` |
 | Menu e rodapé | `src/components/Header.astro`, `Footer.astro` |
-| Cores e fontes | `src/styles/global.css` |
+| Cores (tema claro e escuro) | `src/styles/global.css` |
+| Fontes | `astro.config.mjs` |
 
 ## Publicação
 

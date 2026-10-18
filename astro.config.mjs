@@ -8,28 +8,29 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	site: 'https://henriqueabreu.github.io',
 	integrations: [mdx(), sitemap()],
+	markdown: {
+		// Blocos de código com tema claro e escuro; global.css escolhe qual mostrar.
+		shikiConfig: {
+			themes: { light: 'github-light', dark: 'github-dark-dimmed' },
+			defaultColor: false,
+		},
+	},
 	fonts: [
 		{
-			provider: fontProviders.local(),
-			name: 'Atkinson',
-			cssVariable: '--font-atkinson',
-			fallbacks: ['sans-serif'],
-			options: {
-				variants: [
-					{
-						src: ['./src/assets/fonts/atkinson-regular.woff'],
-						weight: 400,
-						style: 'normal',
-						display: 'swap',
-					},
-					{
-						src: ['./src/assets/fonts/atkinson-bold.woff'],
-						weight: 700,
-						style: 'normal',
-						display: 'swap',
-					},
-				],
-			},
+			provider: fontProviders.google(),
+			name: 'Inter',
+			cssVariable: '--font-sans',
+			weights: [400, 500, 600, 700, 800],
+			subsets: ['latin'],
+			fallbacks: ['system-ui', 'sans-serif'],
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'JetBrains Mono',
+			cssVariable: '--font-mono',
+			weights: [400, 500],
+			subsets: ['latin'],
+			fallbacks: ['ui-monospace', 'monospace'],
 		},
 	],
 });
