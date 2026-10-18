@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# rascunhos de posts (o conteúdo publicado fica no Supabase)
+rascunhos/
