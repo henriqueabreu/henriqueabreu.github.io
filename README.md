@@ -29,6 +29,13 @@ Texto em Markdown...
 
 O nome do arquivo vira o endereço: `meu-post.md` → `/blog/meu-post/`.
 
+Cada post ganha sozinho uma capa de compartilhamento (a imagem que aparece no
+LinkedIn e no WhatsApp), gerada no build em `/og/meu-post.png` a partir do título.
+
+Para colocar um diagrama no meio do texto, use `.mdx` e importe o componente logo
+abaixo do frontmatter, como em `src/content/blog/ia-machine-learning-deep-learning.mdx`.
+Os diagramas ficam em `src/components/diagramas/`.
+
 ## Onde mexer
 
 | O quê | Arquivo |
@@ -43,6 +50,7 @@ O nome do arquivo vira o endereço: `meu-post.md` → `/blog/meu-post/`.
 | Menu e rodapé | `src/components/Header.astro`, `Footer.astro` |
 | Cores e tipografia (tema claro e escuro) | `src/styles/global.css` |
 | Faixa "Vamos conversar?" | `src/components/Convite.astro` |
+| Capa de compartilhamento (layout) | `src/og/render.ts` |
 | Fundo animado de fibra ótica (cores, nº de fibras, velocidade) | `src/components/FibraOtica.astro` |
 | Fontes | `astro.config.mjs` |
 

@@ -1,0 +1,84 @@
+---
+// Programação tradicional x machine learning: o que entra e o que sai em cada uma.
+const fluxos = [
+	{ titulo: 'Programação tradicional', entradas: ['Regras', 'Dados'], saida: 'Respostas', destaque: false },
+	{ titulo: 'Machine learning', entradas: ['Dados', 'Respostas'], saida: 'Regras (o modelo)', destaque: true },
+];
+---
+
+<figure class="diagrama">
+	<div class="fluxos">
+		{fluxos.map((f) => (
+			<div class:list={['fluxo', { destaque: f.destaque }]}>
+				<span class="titulo">{f.titulo}</span>
+				<div class="linha">
+					<span class="caixa">{f.entradas[0]}</span>
+					<span class="sinal" aria-label="mais">+</span>
+					<span class="caixa">{f.entradas[1]}</span>
+					<span class="sinal seta" aria-label="geram">→</span>
+					<span class="caixa saida">{f.saida}</span>
+				</div>
+			</div>
+		))}
+	</div>
+	<figcaption>No machine learning, as regras deixam de ser escritas à mão e passam a ser o resultado do treinamento.</figcaption>
+</figure>
+
+<style>
+	.fluxos {
+		display: grid;
+		gap: 12px;
+	}
+	.fluxo {
+		padding: 20px 24px;
+		border: 1px solid var(--hairline);
+		border-radius: 12px;
+		background: var(--surface-soft);
+	}
+	.fluxo.destaque {
+		background: var(--surface-card);
+		border-color: transparent;
+	}
+	.titulo {
+		display: block;
+		margin-bottom: 12px;
+		color: var(--muted);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+	.linha {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+	}
+	.caixa {
+		padding: 8px 14px;
+		border: 1px solid var(--hairline);
+		border-radius: 8px;
+		background: var(--canvas);
+		color: var(--ink);
+		font-size: 15px;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.saida {
+		border-color: var(--ink);
+	}
+	.destaque .saida {
+		border-color: transparent;
+		background: var(--btn-primary);
+		color: var(--on-btn-primary);
+	}
+	.sinal {
+		color: var(--muted);
+		font-family: var(--font-serif);
+		font-size: 1.4rem;
+		line-height: 1;
+	}
+	.seta {
+		color: var(--primary);
+	}
+</style>

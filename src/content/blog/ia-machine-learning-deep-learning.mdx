@@ -4,6 +4,10 @@ description: 'IA, ML e DL explicados como potes que se guardam um dentro do outr
 pubDate: '2026-10-18'
 ---
 
+import PotesIA from '../../components/diagramas/PotesIA.astro';
+import RedeNeural from '../../components/diagramas/RedeNeural.astro';
+import RegrasExemplos from '../../components/diagramas/RegrasExemplos.astro';
+
 Se você já leu uma notícia dizendo que "a IA vai mudar tudo" e, na mesma página, outra falando de "machine learning" e uma terceira de "deep learning", é natural ficar na dúvida: são a mesma coisa? Coisas diferentes? Uma está dentro da outra?
 
 Estou cursando *Fundamentos de IA e LLMs para Programadores* e, no Módulo 02, o tema é justamente esse. Aqui vai a minha tradução do assunto, pensando em quem escreve código no dia a dia.
@@ -18,15 +22,13 @@ Pense naqueles potes de cozinha que a gente guarda um dentro do outro: o maior a
 
 Ou seja: todo deep learning é machine learning, e todo machine learning é IA, mas o contrário não vale.
 
+<PotesIA />
+
 ## A mudança de mentalidade: de regras para exemplos
 
-Na programação tradicional, o fluxo é:
+Na programação tradicional, o fluxo é **regras + dados → resposta**. No machine learning, ele se inverte: **dados + respostas → regras (o modelo)**.
 
-> **regras + dados → resposta**
-
-No machine learning, ele se inverte:
-
-> **dados + respostas → regras (o modelo)**
+<RegrasExemplos />
 
 Pense em um filtro de spam. A abordagem clássica seria escrever dezenas de `if` ("se contém 'ganhe dinheiro fácil'..."). Com ML, você entrega milhares de e-mails já rotulados como spam ou não spam, e o algoritmo descobre sozinho quais características separam um grupo do outro.
 
@@ -43,6 +45,8 @@ Para quem programa, essa é a virada mais importante: o "código" do sistema pas
 Modelos de ML "clássicos" (regressão, árvores de decisão, SVM) costumam depender de **características escolhidas por humanos**: você decide que o tamanho e o número de quartos importam para prever o preço de uma casa.
 
 O deep learning reduz essa dependência. Com **redes neurais profundas**, o próprio modelo aprende, camada por camada, características cada vez mais abstratas. Numa imagem, as primeiras camadas podem detectar bordas, as seguintes formas, e as últimas objetos inteiros, como um rosto ou um gato.
+
+<RedeNeural />
 
 Esse poder tem um custo: normalmente exige **muito mais dados e capacidade computacional** (GPUs) e os resultados são mais difíceis de interpretar.
 

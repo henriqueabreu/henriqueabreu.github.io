@@ -1,0 +1,104 @@
+---
+// Rede neural simples: cada camada aprende algo mais abstrato que a anterior.
+// Um caminho em terracota mostra o sinal de "rosto" atravessando a rede.
+const colunas = [
+	{ x: 70, n: 4, rotulo: 'pixels' },
+	{ x: 240, n: 5, rotulo: 'bordas' },
+	{ x: 410, n: 4, rotulo: 'formas' },
+	{ x: 570, n: 2, rotulo: 'objeto' },
+];
+const ALTURA = 250;
+const TOPO = 60;
+const nos = colunas.map((c) =>
+	Array.from({ length: c.n }, (_, i) => ({ x: c.x, y: TOPO + ((i + 0.5) * ALTURA) / c.n })),
+);
+// Índice do nó aceso em cada coluna
+const caminho = [1, 2, 1, 0];
+const ligacoes = nos.slice(0, -1).flatMap((col, k) =>
+	col.flatMap((a, i) =>
+		nos[k + 1].map((b, j) => ({ a, b, acesa: caminho[k] === i && caminho[k + 1] === j })),
+	),
+);
+const saidas = ['rosto', 'gato'];
+---
+
+<figure class="diagrama">
+	<svg viewBox="0 0 660 360" role="img" aria-labelledby="rede-titulo">
+		<title id="rede-titulo">Rede neural com quatro camadas: pixels, bordas, formas e objeto. Um caminho destacado leva até a saída "rosto".</title>
+		<text x="70" y="28" class="cabecalho" text-anchor="middle">entrada</text>
+		<text x="325" y="28" class="cabecalho" text-anchor="middle">camadas ocultas</text>
+		<text x="570" y="28" class="cabecalho" text-anchor="middle">saída</text>
+		{ligacoes.filter((l) => !l.acesa).map((l) => (
+			<line x1={l.a.x} y1={l.a.y} x2={l.b.x} y2={l.b.y} class="ligacao" />
+		))}
+		{ligacoes.filter((l) => l.acesa).map((l) => (
+			<line x1={l.a.x} y1={l.a.y} x2={l.b.x} y2={l.b.y} class="ligacao acesa" />
+		))}
+		{nos.map((col, k) =>
+			col.map((p, i) => <circle cx={p.x} cy={p.y} r="13" class:list={['no', { aceso: caminho[k] === i }]} />),
+		)}
+		{nos[3].map((p, i) => (
+			<text x={p.x + 24} y={p.y + 6} class:list={['saida', { acesa: caminho[3] === i }]}>{saidas[i]}</text>
+		))}
+		{colunas.map((c) => (
+			<text x={c.x} y="345" class="rotulo" text-anchor="middle">{c.rotulo}</text>
+		))}
+	</svg>
+	<figcaption>
+		Cada camada aprende características mais abstratas que a anterior: de pixels a bordas, de bordas a formas, e
+		de formas ao objeto.
+	</figcaption>
+</figure>
+
+<style>
+	svg {
+		display: block;
+		width: 100%;
+		height: auto;
+		padding: 16px 8px 8px;
+		border: 1px solid var(--hairline);
+		border-radius: 12px;
+		background: var(--surface-soft);
+		overflow: visible;
+	}
+	.ligacao {
+		stroke: var(--muted-soft);
+		stroke-width: 1;
+		opacity: 0.35;
+	}
+	.ligacao.acesa {
+		stroke: var(--primary);
+		stroke-width: 2.5;
+		opacity: 1;
+	}
+	.no {
+		fill: var(--canvas);
+		stroke: var(--ink);
+		stroke-width: 1.5;
+	}
+	.no.aceso {
+		fill: var(--primary);
+		stroke: var(--primary);
+	}
+	.cabecalho {
+		fill: var(--muted);
+		font-family: var(--font-sans);
+		font-size: 17px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+	.rotulo {
+		fill: var(--ink);
+		font-family: var(--font-serif);
+		font-size: 25px;
+	}
+	.saida {
+		fill: var(--muted);
+		font-family: var(--font-serif);
+		font-size: 25px;
+	}
+	.saida.acesa {
+		fill: var(--primary-active);
+	}
+</style>

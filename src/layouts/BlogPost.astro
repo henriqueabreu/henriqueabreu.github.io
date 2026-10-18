@@ -6,12 +6,12 @@ import FormattedDate from '../components/FormattedDate.astro';
 import { AUTOR, SITE_TITLE } from '../consts';
 import Layout from './Layout.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & { id: string };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<Layout title={`${title} — ${SITE_TITLE}`} description={description} image={heroImage}>
+<Layout title={`${title} — ${SITE_TITLE}`} description={description} image={heroImage ?? `/og/${id}.png`}>
 	<article>
 		<header>
 			<a href="/blog" class="voltar">← Escritos</a>

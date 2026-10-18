@@ -346,3 +346,19 @@ kbd {
 	border-bottom: 1px solid var(--hairline);
 	text-align: left;
 }
+
+/* ---------- Diagramas dentro dos posts ---------- */
+
+.diagrama {
+	margin: 2.5em 0;
+}
+.prose > .diagrama {
+	margin-top: 2.5em;
+}
+.diagrama figcaption {
+	margin-top: 12px;
+	color: var(--muted);
+	font-size: 14px;
+	line-height: 1.5;
+	text-align: center;
+}

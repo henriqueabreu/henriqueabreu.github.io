@@ -3,6 +3,22 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// As imagens de prévia (src/og) são desenhadas pelo sharp, que acha fontes pelo fontconfig.
+// Aponta o fontconfig para a pasta de fontes do projeto, para a capa sair igual em qualquer máquina.
+const pastaFontes = fileURLToPath(new URL('./src/og/fonts/', import.meta.url));
+const pastaTmp = join(tmpdir(), 'site-pessoal-fontconfig');
+mkdirSync(pastaTmp, { recursive: true });
+const arquivoConf = join(pastaTmp, 'fonts.conf');
+writeFileSync(
+	arquivoConf,
+	`<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>${pastaFontes}</dir><cachedir>${pastaTmp}</cachedir></fontconfig>`,
+);
+process.env.FONTCONFIG_FILE = arquivoConf;
 
 // https://astro.build/config
 export default defineConfig({

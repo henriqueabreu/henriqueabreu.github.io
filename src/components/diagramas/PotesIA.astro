@@ -1,0 +1,64 @@
+---
+// IA, Machine Learning e Deep Learning como potes guardados um dentro do outro.
+---
+
+<figure class="diagrama">
+	<div class="pote ia">
+		<p class="rotulo"><span class="nome">Inteligência Artificial</span><span class="ex">ex.: um programa de xadrez com regras escritas à mão</span></p>
+		<div class="pote ml">
+			<p class="rotulo"><span class="nome">Machine Learning</span><span class="ex">ex.: um filtro de spam que aprende com e-mails rotulados</span></p>
+			<div class="pote dl">
+				<p class="rotulo"><span class="nome">Deep Learning</span><span class="ex">ex.: reconhecer rostos em fotos, os LLMs</span></p>
+			</div>
+		</div>
+	</div>
+	<figcaption>Um dentro do outro: todo deep learning é machine learning, e todo machine learning é IA.</figcaption>
+</figure>
+
+<style>
+	.pote {
+		padding: 20px 24px 24px;
+		border-radius: 16px;
+	}
+	.ia {
+		border: 1px solid var(--hairline);
+		background: var(--surface-soft);
+	}
+	.ml {
+		margin-top: 16px;
+		border-radius: 14px;
+		background: var(--surface-card);
+	}
+	.dl {
+		margin-top: 16px;
+		border: 1.5px solid var(--primary);
+		border-radius: 12px;
+		background: var(--canvas);
+	}
+	.rotulo {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 4px 12px;
+		margin: 0;
+	}
+	.nome {
+		color: var(--ink);
+		font-family: var(--font-serif);
+		font-size: 1.35rem;
+		line-height: 1.2;
+	}
+	.dl .nome {
+		color: var(--primary-active);
+	}
+	.ex {
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.4;
+	}
+	@media (max-width: 520px) {
+		.pote {
+			padding: 16px 16px 18px;
+		}
+	}
+</style>
