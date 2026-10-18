@@ -1,0 +1,22 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<BaseHead title={`Sobre — ${SITE_TITLE}`} description="Quem sou eu e o que faço." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Sobre</h1>
+			<!-- Escreva aqui sua apresentação: o que você faz, o que estuda, como falar com você. -->
+			<p>Em breve, uma apresentação sobre mim.</p>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,40 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+import { PROJETOS } from '../data/projetos';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<BaseHead title={`Projetos — ${SITE_TITLE}`} description="Projetos em que trabalho ou trabalhei." />
+		<style>
+			.projeto {
+				margin-bottom: 2em;
+			}
+			.projeto h2 {
+				margin-bottom: 0.25em;
+			}
+			.tecnologias {
+				color: rgb(var(--gray));
+				font-size: 0.9em;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Projetos</h1>
+			{PROJETOS.map((p) => (
+				<section class="projeto">
+					<h2>{p.link ? <a href={p.link}>{p.nome}</a> : p.nome}</h2>
+					<p>{p.descricao}</p>
+					<p class="tecnologias">{p.tecnologias.join(' · ')}</p>
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>
