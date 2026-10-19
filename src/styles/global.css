@@ -362,3 +362,154 @@ kbd {
 	line-height: 1.5;
 	text-align: center;
 }
+
+/*
+  Diagramas escritos direto no Markdown dos posts do banco (HTML/SVG embutido).
+  As classes .dg-* ficam aqui porque esse conteúdo não passa por componentes.
+*/
+
+/* Mapa de pastas: duas colunas, cada item marcado como "git" ou "local" */
+.dg-legenda {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 20px;
+	margin: 0 0 12px;
+	color: var(--muted);
+	font-size: 13px;
+}
+.dg-legenda span,
+.dg-item b {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.dg-legenda span::before,
+.dg-item b::before {
+	content: '';
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+}
+.dg-git::before {
+	background: var(--primary);
+}
+.dg-local::before {
+	background: var(--teal);
+}
+.dg-colunas {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+.dg-coluna {
+	padding: 20px;
+	border: 1px solid var(--hairline);
+	border-radius: 12px;
+	background: var(--surface-soft);
+}
+.dg-coluna h4 {
+	margin: 0 0 2px;
+	font-family: var(--font-serif);
+	font-size: 1.3rem;
+	font-weight: 400;
+}
+.dg-coluna > p {
+	margin: 0 0 14px;
+	color: var(--muted);
+	font-size: 13px;
+}
+.dg-item {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 2px 12px;
+	padding: 10px 0;
+	border-top: 1px solid var(--hairline);
+	font-size: 14px;
+	line-height: 1.4;
+}
+.dg-item code {
+	padding: 0 !important;
+	border: 0 !important;
+	background: none !important;
+	color: var(--ink);
+	font-size: 13px;
+}
+.dg-item b {
+	color: var(--muted);
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+.dg-item span {
+	grid-column: 1 / -1;
+	color: var(--muted);
+	font-size: 13px;
+}
+@media (max-width: 640px) {
+	.dg-colunas {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Diagramas em SVG: cores vindas das variáveis do tema */
+.dg-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	padding: 12px;
+	border: 1px solid var(--hairline);
+	border-radius: 12px;
+	background: var(--surface-soft);
+}
+.dg-svg .borda {
+	fill: none;
+	stroke: var(--primary);
+	stroke-width: 1.5;
+	stroke-dasharray: 6 6;
+}
+.dg-svg .raio {
+	stroke: var(--muted-soft);
+	stroke-width: 1;
+	opacity: 0.6;
+}
+.dg-svg .peca {
+	fill: var(--canvas);
+	stroke: var(--hairline);
+	stroke-width: 1.5;
+}
+.dg-svg .nucleo {
+	fill: var(--dark);
+}
+.dg-svg .seta {
+	fill: none;
+	stroke: var(--primary);
+	stroke-width: 2.5;
+}
+.dg-svg .ponta {
+	fill: var(--primary);
+}
+.dg-svg text {
+	font-family: var(--font-sans);
+	font-size: 19px;
+	fill: var(--ink);
+}
+.dg-svg .t-serif {
+	font-family: var(--font-serif);
+	font-size: 26px;
+}
+.dg-svg .t-claro {
+	fill: #faf9f5;
+}
+.dg-svg .t-suave {
+	fill: var(--muted);
+	font-size: 16px;
+}
+.dg-svg .t-claro.t-suave {
+	fill: #a09d96;
+}
+.dg-svg .t-rotulo {
+	fill: var(--primary-active);
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: 2px;
+}
