@@ -13,24 +13,31 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 	<slot />
 </a>
 <style>
+	/* Página atual em bloco preto; hover em bloco laranja */
 	a {
 		display: inline-block;
-		padding: 8px 12px;
-		border-radius: 8px;
+		padding: 10px 12px;
 		color: var(--muted);
-		font-size: 14px;
-		font-weight: 500;
+		font-size: 13px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
 		line-height: 1.4;
 		text-decoration: none;
 	}
 	a.active {
-		background: var(--surface-card);
-		color: var(--ink);
+		background: var(--ink);
+		color: var(--canvas);
+	}
+	a:hover {
+		background: var(--primary);
+		color: #0a0a0a;
 	}
 	@media (max-width: 640px) {
 		a {
-			padding: 6px 8px;
-			font-size: 13px;
+			padding: 10px 5px;
+			font-size: 11px;
+			letter-spacing: 0;
 		}
 	}
 </style>

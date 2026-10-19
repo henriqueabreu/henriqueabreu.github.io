@@ -28,3 +28,18 @@ const { title, description, image } = Astro.props;
 		<Footer />
 	</body>
 </html>
+
+<script>
+	// Mostra cada .revelar quando ele entra na tela, uma vez só
+	const observador = new IntersectionObserver(
+		(entradas) => {
+			for (const e of entradas) {
+				if (!e.isIntersecting) continue;
+				e.target.classList.add('visivel');
+				observador.unobserve(e.target);
+			}
+		},
+		{ rootMargin: '0px 0px -8% 0px' },
+	);
+	document.querySelectorAll('.revelar').forEach((el) => observador.observe(el));
+</script>

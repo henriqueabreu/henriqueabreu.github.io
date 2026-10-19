@@ -47,6 +47,8 @@ const ogGerada = typeof image === 'string';
 			tema = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 		}
 		document.documentElement.dataset.theme = tema;
+		// Libera as entradas suaves ao rolar (veja .revelar no global.css)
+		if ('IntersectionObserver' in window) document.documentElement.classList.add('js');
 	})();
 </script>
 

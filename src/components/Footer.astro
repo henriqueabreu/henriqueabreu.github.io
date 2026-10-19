@@ -38,7 +38,7 @@ const today = new Date();
 		gap: 48px;
 		max-width: var(--max);
 		margin: 0 auto;
-		padding: 64px 24px 48px;
+		padding: 80px var(--gutter) 48px;
 	}
 	p {
 		margin: 0;
@@ -46,7 +46,8 @@ const today = new Date();
 	.marca {
 		margin-bottom: 8px;
 		color: var(--on-dark);
-		font-family: var(--font-serif);
+		font-family: var(--font-sans);
+		font-weight: 800;
 		font-size: 1.75rem;
 		letter-spacing: -0.02em;
 	}
@@ -61,12 +62,13 @@ const today = new Date();
 	.titulo {
 		margin-bottom: 4px;
 		color: var(--on-dark);
+		font-family: var(--font-mono);
 		font-size: 12px;
-		font-weight: 500;
-		letter-spacing: 1.5px;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 	}
 	a {
+		width: fit-content;
 		color: var(--on-dark-soft);
 		text-decoration: none;
 	}
@@ -76,7 +78,7 @@ const today = new Date();
 	.copy {
 		max-width: var(--max);
 		margin: 0 auto;
-		padding: 24px;
+		padding: 24px var(--gutter);
 		border-top: 1px solid var(--dark-elevated);
 		font-size: 13px;
 	}
@@ -84,13 +86,10 @@ const today = new Date();
 		.conteudo {
 			grid-template-columns: 1fr 1fr;
 			gap: 32px;
-			padding: 48px 16px 32px;
+			padding: 56px var(--gutter) 32px;
 		}
 		.assinatura {
 			grid-column: 1 / -1;
-		}
-		.copy {
-			padding: 24px 16px;
 		}
 	}
 </style>

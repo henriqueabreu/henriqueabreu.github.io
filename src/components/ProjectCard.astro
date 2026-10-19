@@ -1,15 +1,21 @@
 ---
 import type { Projeto } from '../data/projetos';
+import Icon from './Icon.astro';
 
 interface Props {
 	projeto: Projeto;
+	/** Versão maior, usada no projeto principal da página inicial */
+	grande?: boolean;
 }
 
-const { projeto } = Astro.props;
+const { projeto, grande = false } = Astro.props;
 ---
 
-<article class="projeto">
-	<p class:list={['status', { ativo: projeto.status === 'Em andamento' }]}>{projeto.status}</p>
+<article class:list={['projeto', { grande, clicavel: projeto.link }]}>
+	<div class="topo">
+		<p class:list={['status', { ativo: projeto.status === 'Em andamento' }]}>{projeto.status}</p>
+		{projeto.link && <span class="seta"><Icon name="arrow" size={18} /></span>}
+	</div>
 	<h3>
 		{projeto.link ? (
 			<a href={projeto.link} target="_blank" rel="noopener">{projeto.nome}</a>
@@ -25,23 +31,47 @@ const { projeto } = Astro.props;
 
 <style>
 	.projeto {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 		padding: 32px;
-		border: 1px solid var(--hairline);
-		border-radius: 12px;
-		background: var(--canvas);
+		border: 2px solid var(--ink);
+		background: var(--surface-card);
+		box-shadow: var(--sombra);
+		transition:
+			border-color var(--dur) var(--ease),
+			background-color var(--dur) var(--ease);
+	}
+	.projeto.clicavel:hover {
+		border-color: var(--muted-soft);
+		background: var(--surface-soft);
+	}
+	.grande {
+		padding: 40px;
+		background: var(--primary);
+		color: #0a0a0a;
+	}
+	.grande h3,
+	.grande .descricao,
+	.grande .status {
+		color: #0a0a0a;
+	}
+	.topo {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 24px;
 	}
 	.status {
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		margin-bottom: 20px;
+		margin: 0;
 		color: var(--muted);
+		font-family: var(--font-mono);
 		font-size: 12px;
-		font-weight: 500;
-		letter-spacing: 1.5px;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
 	}
 	.status::before {
@@ -54,15 +84,46 @@ const { projeto } = Astro.props;
 	.status.ativo::before {
 		background: var(--teal);
 	}
+	.seta {
+		display: grid;
+		color: var(--muted);
+		transform: rotate(-45deg);
+		transition:
+			transform var(--dur) var(--ease),
+			color var(--dur) var(--ease);
+	}
+	.clicavel:hover .seta {
+		color: var(--primary);
+		transform: rotate(-45deg) translateX(3px);
+	}
 	h3 {
 		margin-bottom: 12px;
 	}
+	.grande h3 {
+		font-size: clamp(2rem, 3.4vw, 2.75rem);
+		letter-spacing: -0.025em;
+	}
+	/* O link do título cobre o card inteiro */
 	h3 a {
 		color: inherit;
+		text-decoration: none;
+	}
+	h3 a::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
 	}
 	.descricao {
 		flex: 1;
-		margin-bottom: 24px;
+		margin-bottom: 28px;
 		color: var(--body);
+	}
+	.grande .descricao {
+		max-width: 46ch;
+		font-size: 1.125rem;
+	}
+	.grande .badge {
+		background: var(--canvas);
 	}
 </style>

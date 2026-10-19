@@ -1,63 +1,66 @@
 /*
   Cores, tipografia e estilos base do site.
-  Linguagem editorial e quente: fundo creme, títulos em serifa, terracota usada com parcimônia
-  e superfícies escuras para código e terminal.
+  Linguagem brutalista: papel cru, tinta preta, bordas grossas, cantos retos,
+  sombras duras deslocadas, tipografia pesada, laranja como único acento e nenhuma transição.
 */
-
 :root {
-	--canvas: #faf9f5;
-	--surface-soft: #f5f0e8;
-	--surface-card: #efe9de;
-	--surface-strong: #e8e0d2;
-	--ink: #141413;
-	--body-strong: #252523;
-	--body: #3d3d3a;
-	--muted: #6c6a64;
-	--muted-soft: #8e8b82;
-	--hairline: #e6dfd8;
-	--primary: #cc785c;
-	--primary-active: #a9583e;
-	--on-primary: #ffffff;
-	/* Terracota mais escura para links em texto corrido, com contraste suficiente sobre o creme */
-	--link: #a9583e;
-	--dark: #181715;
-	--dark-elevated: #252320;
-	--dark-soft: #1f1e1b;
-	--on-dark: #faf9f5;
-	--on-dark-soft: #a09d96;
-	--teal: #5db8a6;
-	--amber: #e8a55a;
-	/* Botão principal um tom abaixo do terracota para o texto branco ficar legível */
-	--btn-primary: #b4613f;
-	--btn-primary-active: #94492d;
-	--on-btn-primary: #ffffff;
+	--canvas: #f2f0e9;
+	--surface-soft: #ebe8de;
+	--surface-card: #ffffff;
+	--surface-strong: #e0dccf;
+	--ink: #0a0a0a;
+	--body-strong: #0a0a0a;
+	--body: #1f1f1f;
+	--muted: #4a4a4a;
+	--muted-soft: #6e6e6e;
+	--hairline: #0a0a0a;
+	--primary: #ff5a1f;
+	--primary-active: #c43d0c;
+	--on-primary: #0a0a0a;
+	--link: #0a0a0a;
+	--dark: #0a0a0a;
+	--dark-elevated: #1c1c1c;
+	--dark-soft: #141414;
+	--on-dark: #f2f0e9;
+	--on-dark-soft: #b5b2a8;
+	--teal: #00a37a;
+	--amber: #ffb800;
+	--btn-primary: #ff5a1f;
+	--btn-primary-active: #ff7a47;
+	--on-btn-primary: #0a0a0a;
+	--borda: 2px;
+	--sombra: 5px 5px 0 var(--ink);
 
-	--max: 1120px;
-	--section: 96px;
+	--max: 1200px;
+	--section: clamp(72px, 10vw, 120px);
+	--gutter: 24px;
+	--ease: linear;
+	--dur: 0ms;
 	color-scheme: light;
 }
 
 :root[data-theme='dark'] {
-	--canvas: #1a1917;
-	--surface-soft: #1f1e1b;
-	--surface-card: #252320;
-	--surface-strong: #2f2c28;
-	--ink: #faf9f5;
-	--body-strong: #ece9e2;
-	--body: #cfcbc3;
-	--muted: #a09d96;
-	--muted-soft: #85827b;
-	--hairline: #33302b;
-	--primary: #d4866a;
-	--primary-active: #e09a80;
-	--link: #e3a088;
-	--dark: #100f0e;
-	--dark-elevated: #1f1d1a;
-	--dark-soft: #161513;
-	--btn-primary: #d4866a;
-	--btn-primary-active: #e09a80;
-	--on-btn-primary: #141413;
+	--canvas: #0f0f0f;
+	--surface-soft: #171717;
+	--surface-card: #1a1a1a;
+	--surface-strong: #262626;
+	--ink: #f2f0e9;
+	--body-strong: #f2f0e9;
+	--body: #dcd9d0;
+	--muted: #b5b2a8;
+	--muted-soft: #8f8c84;
+	--hairline: #f2f0e9;
+	--link: #f2f0e9;
+	--dark: #000000;
+	--dark-elevated: #1c1c1c;
+	--dark-soft: #0a0a0a;
 	color-scheme: dark;
+}
+
+@media (max-width: 640px) {
+	:root {
+		--gutter: 16px;
+	}
 }
 
 *,
@@ -90,37 +93,44 @@ main {
 	width: 100%;
 	max-width: var(--max);
 	margin: 0 auto;
-	padding: 72px 24px var(--section);
+	padding: 72px var(--gutter) var(--section);
 }
 
-/* Títulos: serifa, peso regular, tracking negativo. Nunca negrito. */
+/* Títulos: sans pesada (800), tracking bem negativo */
 h1,
 h2,
 h3 {
 	margin: 0 0 0.5em;
 	color: var(--ink);
-	font-family: var(--font-serif);
-	font-weight: 400;
+	font-family: var(--font-sans);
+	font-weight: 800;
 }
 h1 {
-	font-size: clamp(2.4rem, 5.5vw, 4rem);
-	line-height: 1.05;
-	letter-spacing: -0.025em;
+	font-size: clamp(2.75rem, 7vw, 5.5rem);
+	line-height: 1.02;
+	letter-spacing: -0.04em;
+	text-wrap: balance;
 }
 h2 {
-	font-size: clamp(1.9rem, 3.5vw, 2.5rem);
-	line-height: 1.1;
-	letter-spacing: -0.02em;
+	font-size: clamp(2rem, 4.2vw, 3.25rem);
+	line-height: 1;
+	letter-spacing: -0.045em;
+	text-wrap: balance;
 }
 h3 {
 	font-size: 1.6rem;
 	line-height: 1.2;
 	letter-spacing: -0.01em;
 }
+/* Destaque como marca-texto chapado */
 h1 em,
 h2 em {
-	font-style: italic;
-	color: var(--primary);
+	padding: 0 0.12em;
+	background: var(--primary);
+	color: #0a0a0a;
+	font-style: normal;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
 }
 
 h4 {
@@ -140,6 +150,15 @@ a {
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
 	text-underline-offset: 3px;
+	transition:
+		color var(--dur) var(--ease),
+		text-decoration-color var(--dur) var(--ease);
+}
+a:hover {
+	text-decoration-thickness: 2px;
+}
+button {
+	cursor: pointer;
 }
 
 img {
@@ -166,43 +185,73 @@ kbd {
 
 /* ---------- Peças compartilhadas ---------- */
 
+/* Rótulo em monoespaçada, com um quadradinho laranja na frente */
 .caption {
-	display: block;
-	margin-bottom: 16px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
 	color: var(--muted);
+	font-family: var(--font-mono);
 	font-size: 12px;
-	font-weight: 500;
-	letter-spacing: 1.5px;
+	font-weight: 400;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
+}
+.caption::before {
+	content: '';
+	flex: none;
+	width: 10px;
+	height: 10px;
+	background: var(--primary);
+	border: var(--borda) solid var(--ink);
 }
 
 .page-header {
-	max-width: 720px;
-	margin-bottom: 64px;
+	max-width: 880px;
+	margin-bottom: 72px;
 }
 .page-header p {
+	max-width: 620px;
 	color: var(--muted);
-	font-size: 1.125rem;
+	font-size: 1.1875rem;
+	line-height: 1.55;
 }
 
 .section {
 	margin-top: var(--section);
 }
+/* Cabeçalho de seção como em jornal: filete forte em cima, título à esquerda e link à direita */
 .section-head {
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
 	gap: 16px;
-	margin-bottom: 32px;
+	margin-bottom: 40px;
+	padding-top: 20px;
+	border-top: 6px solid var(--ink);
 }
 .section-head h2 {
 	margin: 0;
 }
-.section-head a {
+.section-head a,
+.link-seta {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
 	color: var(--ink);
 	font-size: 14px;
 	font-weight: 500;
+	text-decoration: none;
 	white-space: nowrap;
+}
+.section-head a svg,
+.link-seta svg {
+	transition: transform var(--dur) var(--ease);
+}
+.section-head a:hover svg,
+.link-seta:hover svg {
+	transform: translateX(4px);
 }
 
 .badges {
@@ -221,6 +270,10 @@ kbd {
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1.4;
+	transition: background-color var(--dur) var(--ease);
+}
+a.badge:hover {
+	background: var(--surface-strong);
 }
 
 .btn {
@@ -228,8 +281,8 @@ kbd {
 	align-items: center;
 	justify-content: center;
 	gap: 8px;
-	height: 40px;
-	padding: 0 20px;
+	height: 44px;
+	padding: 0 22px;
 	border: 1px solid var(--hairline);
 	border-radius: 8px;
 	background: var(--canvas);
@@ -238,6 +291,13 @@ kbd {
 	font-weight: 500;
 	line-height: 1;
 	text-decoration: none;
+	transition:
+		background-color var(--dur) var(--ease),
+		border-color var(--dur) var(--ease),
+		color var(--dur) var(--ease);
+}
+.btn:hover {
+	border-color: var(--muted-soft);
 }
 .btn:active {
 	background: var(--surface-card);
@@ -247,12 +307,36 @@ kbd {
 	background: var(--btn-primary);
 	color: var(--on-btn-primary);
 }
-.btn-primary:active {
+.btn-primary:hover {
+	border-color: transparent;
 	background: var(--btn-primary-active);
 }
 .btn svg {
 	width: 16px;
 	height: 16px;
+	transition: transform var(--dur) var(--ease);
+}
+.btn:hover .seta {
+	transform: translateX(3px);
+}
+
+/*
+  Entrada suave ao rolar: só some e sobe 12px quando há JS (classe .js no <html>)
+  e o sistema não pede menos movimento. Sem isso, tudo aparece normalmente.
+*/
+@media (prefers-reduced-motion: no-preference) {
+	.js .revelar {
+		opacity: 0;
+		transform: translateY(12px);
+		transition:
+			opacity 450ms var(--ease),
+			transform 450ms var(--ease);
+		transition-delay: calc(var(--i, 0) * 70ms);
+	}
+	.js .revelar.visivel {
+		opacity: 1;
+		transform: none;
+	}
 }
 
 .sr-only {
@@ -306,11 +390,14 @@ kbd {
 }
 .prose blockquote {
 	margin: 0;
-	padding: 4px 0 4px 24px;
-	border-left: 2px solid var(--primary);
+	padding: 16px 20px;
+	border: var(--borda) solid var(--ink);
+	border-left: 10px solid var(--primary);
+	background: var(--surface-card);
 	color: var(--ink);
-	font-family: var(--font-serif);
-	font-size: 1.35rem;
+	font-family: var(--font-sans);
+	font-weight: 600;
+	font-size: 1.2rem;
 	line-height: 1.45;
 }
 .prose img {
@@ -591,4 +678,62 @@ li.dg-revisa .dg-n {
 		grid-column: 2;
 		justify-self: start;
 	}
+}
+
+
+/* ---------- Brutalismo: regras que valem para o site inteiro ---------- */
+
+*,
+*::before,
+*::after {
+	border-radius: 0 !important;
+	transition: none !important;
+}
+.btn {
+	border: var(--borda) solid var(--ink);
+	box-shadow: var(--sombra);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+.btn:hover {
+	border-color: var(--ink);
+	transform: translate(2px, 2px);
+	box-shadow: 3px 3px 0 var(--ink);
+}
+.btn:active {
+	transform: translate(5px, 5px);
+	box-shadow: none;
+}
+.badge {
+	border: 1.5px solid var(--ink);
+	background: var(--canvas);
+	font-family: var(--font-mono);
+	font-size: 12px;
+}
+a {
+	text-decoration-thickness: 2px;
+}
+a:hover {
+	background: var(--primary);
+	color: #0a0a0a;
+}
+.section-head a:hover,
+.link-seta:hover {
+	background: var(--primary);
+	color: #0a0a0a;
+}
+.prose pre {
+	border: var(--borda) solid var(--ink);
+	box-shadow: var(--sombra);
+}
+.prose img,
+.dg-svg,
+.dg-coluna,
+.dg-etapas {
+	border: var(--borda) solid var(--ink) !important;
+}
+:focus-visible {
+	outline: 3px solid var(--primary);
+	outline-offset: 2px;
 }

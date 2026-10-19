@@ -1,16 +1,16 @@
 ---
-// Faixa terracota antes do rodapé, convidando para conversar.
+// Bloco laranja antes do rodapé, convidando para conversar.
 import { LINKEDIN_URL } from '../consts';
 import Icon from './Icon.astro';
 ---
 
-<section class="convite">
+<section class="convite revelar">
 	<div>
 		<h2>Vamos conversar?</h2>
 		<p>Se você também está levando agentes de IA para produtos de verdade, quero trocar ideia.</p>
 	</div>
 	<a href={LINKEDIN_URL} target="_blank" rel="noopener" class="btn">
-		<Icon name="linkedin" size={16} /> Falar no LinkedIn
+		<Icon name="linkedin" size={16} /> Falar no LinkedIn <span class="seta"><Icon name="arrow" size={16} /></span>
 	</a>
 </section>
 
@@ -21,32 +21,38 @@ import Icon from './Icon.astro';
 		justify-content: space-between;
 		gap: 32px;
 		margin-top: var(--section);
-		padding: 64px;
-		border-radius: 12px;
+		padding: clamp(40px, 7vw, 88px);
+		border-radius: 16px;
 		/* Terracota mais profunda que o botão: mantém o texto branco legível nos dois temas */
-		background: #a9583e;
-		color: #fff;
+		border: 3px solid var(--ink);
+		background: var(--primary);
+		box-shadow: 10px 10px 0 var(--ink);
+		color: #0a0a0a;
 	}
 	h2 {
-		margin-bottom: 8px;
-		color: #fff;
+		margin-bottom: 16px;
+		color: #0a0a0a;
+		font-size: clamp(2.5rem, 6vw, 4.5rem);
 	}
 	p {
 		max-width: 520px;
 		margin: 0;
-		font-size: 1.125rem;
+		color: #0a0a0a;
+		font-weight: 500;
+		font-size: 1.1875rem;
 	}
 	.btn {
 		flex-shrink: 0;
 		border-color: transparent;
-		background: #faf9f5;
-		color: #141413;
+		background: #0a0a0a;
+		color: #f2f0e9;
+		border-color: #0a0a0a;
+		box-shadow: 5px 5px 0 #f2f0e9;
 	}
 	@media (max-width: 760px) {
 		.convite {
 			flex-direction: column;
 			align-items: flex-start;
-			padding: 40px 28px;
 		}
 	}
 </style>

@@ -13,7 +13,11 @@ import Layout from '../layouts/Layout.astro';
 		<p>Produtos, experimentos e estudos, a maioria girando em torno de agentes e IA aplicada.</p>
 	</header>
 	<div class="grade">
-		{PROJETOS.map((p) => <ProjectCard projeto={p} />)}
+		{PROJETOS.map((p, i) => (
+			<div class="revelar" style={`--i: ${i % 3}`}>
+				<ProjectCard projeto={p} />
+			</div>
+		))}
 	</div>
 	<Convite />
 </Layout>
@@ -22,7 +26,7 @@ import Layout from '../layouts/Layout.astro';
 	.grade {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 24px;
+		gap: 20px;
 	}
 	@media (max-width: 1024px) {
 		.grade {

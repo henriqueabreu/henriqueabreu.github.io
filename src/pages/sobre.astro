@@ -3,11 +3,11 @@ import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.jpg';
 import Convite from '../components/Convite.astro';
 import { AUTOR, GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
-import { FERRAMENTAS, TRAJETORIA } from '../data/trajetoria';
+import { CERTIFICACOES, COMO_TRABALHO, FERRAMENTAS, TRAJETORIA } from '../data/trajetoria';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title={`Sobre — ${SITE_TITLE}`} description="Quem sou eu e o que faço.">
+<Layout title={`Sobre — ${SITE_TITLE}`} description="Engenheiro de Computação com mais de 12 anos entre desenvolvimento e produto, hoje focado em IA aplicada.">
 	<section class="intro">
 		<div>
 			<span class="caption">Sobre</span>
@@ -15,15 +15,22 @@ import Layout from '../layouts/Layout.astro';
 			<div class="prose">
 				<!-- Ajuste este texto à vontade: é a sua apresentação. -->
 				<p>
-					Sou engenheiro de computação, formado pelo Instituto Federal do Ceará, e trabalho com
-					desenvolvimento de software. Hoje curso uma pós-graduação em Engenharia de IA Aplicada com
-					ênfase em Engenharia de Software, e meu foco tem sido inteligência artificial aplicada:
-					agentes que dividem o trabalho com pessoas, sistemas de recuperação de informação (RAG) e o
-					uso de LLMs no dia a dia de produto.
+					Sou engenheiro de computação, formado pelo Instituto Federal do Ceará, e há mais de 12 anos
+					trabalho entre o código e o produto. Fui desenvolvedor, Product Owner e Product Manager, quase
+					sempre em sistemas financeiros: contas a pagar e a receber, integração com bancos, migração de
+					sistemas legados e as APIs que ligam uma ponta à outra.
 				</p>
 				<p>
-					Este site é onde registro esses estudos e projetos, com o que funcionou, o que não funcionou e
-					por quê. Fora do código, sou pai do Vicente.
+					Sou certificado PSM I (Professional Scrum Master) pela Scrum.org, mas o que mais me interessa em
+					agilidade é o efeito nas pessoas: times que entregam valor de verdade e, no caminho, ficam
+					tecnicamente melhores e mais autônomos.
+				</p>
+				<p>
+					Hoje curso uma pós-graduação em Engenharia de IA Aplicada com ênfase em Engenharia de Software,
+					e meu foco tem sido inteligência artificial aplicada: agentes que dividem o trabalho com pessoas,
+					sistemas de recuperação de informação (RAG) e o uso de LLMs no dia a dia de produto. Este site é
+					onde registro esses estudos e projetos, com o que funcionou, o que não funcionou e por quê. Fora
+					do código, sou pai do Vicente.
 				</p>
 				<p>
 					Quer conversar? Me chame no <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a> ou
@@ -37,12 +44,31 @@ import Layout from '../layouts/Layout.astro';
 		</figure>
 	</section>
 
+	<section class="section como">
+		<div class="section-head revelar">
+			<h2>Como trabalho</h2>
+		</div>
+		<p class="objetivo revelar">
+			Quero continuar ajudando times a chegar ao seu melhor, liderando projetos que resolvam problemas
+			reais e entreguem valor de verdade para as empresas e seus processos.
+		</p>
+		<div class="como-grade">
+			{COMO_TRABALHO.map((c, i) => (
+				<div class="como-item revelar" style={`--i: ${i % 2}`}>
+					<span class="caption">{c.rotulo}</span>
+					<h4>{c.titulo}</h4>
+					<p>{c.texto}</p>
+				</div>
+			))}
+		</div>
+	</section>
+
 	<section class="section colunas">
 		<div>
 			<h2>Trajetória</h2>
 			<ol class="trajetoria">
 				{TRAJETORIA.map((e) => (
-					<li>
+					<li class="revelar">
 						<span class="periodo">{e.periodo}</span>
 						<div>
 							<h4>{e.titulo}</h4>
@@ -57,6 +83,10 @@ import Layout from '../layouts/Layout.astro';
 			<span class="caption">Ferramentas do dia a dia</span>
 			<ul class="badges">
 				{FERRAMENTAS.map((f) => <li class="badge">{f}</li>)}
+			</ul>
+			<span class="caption certificacao">Certificação</span>
+			<ul class="badges">
+				{CERTIFICACOES.map((c) => <li class="badge">{c}</li>)}
 			</ul>
 		</aside>
 	</section>
@@ -85,9 +115,12 @@ import Layout from '../layouts/Layout.astro';
 		object-fit: cover;
 	}
 	figcaption {
-		margin-top: 12px;
+		margin-top: 14px;
 		color: var(--muted);
-		font-size: 14px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
 	}
 
 	.colunas {
@@ -99,7 +132,7 @@ import Layout from '../layouts/Layout.astro';
 	.trajetoria {
 		margin: 32px 0 0;
 		padding: 0;
-		border-top: 1px solid var(--hairline);
+		border-top: 1px solid var(--ink);
 		list-style: none;
 	}
 	.trajetoria li {
@@ -110,12 +143,19 @@ import Layout from '../layouts/Layout.astro';
 		border-bottom: 1px solid var(--hairline);
 	}
 	.periodo {
+		padding-top: 4px;
 		color: var(--muted);
-		font-size: 14px;
-		padding-top: 2px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.04em;
 	}
 	.trajetoria h4 {
-		margin-bottom: 2px;
+		margin-bottom: 4px;
+		font-family: var(--font-sans);
+		font-weight: 800;
+		font-size: 1.4rem;
+		
+		letter-spacing: -0.01em;
 	}
 	.lugar {
 		margin: 0;
@@ -133,7 +173,42 @@ import Layout from '../layouts/Layout.astro';
 		background: var(--canvas);
 	}
 
+	.objetivo {
+		max-width: 720px;
+		margin-bottom: 48px;
+		color: var(--body);
+		font-size: 1.1875rem;
+		line-height: 1.55;
+	}
+	.como-grade {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0 48px;
+	}
+	.como-item {
+		padding: 28px 0;
+		border-top: 1px solid var(--hairline);
+	}
+	.como-item h4 {
+		margin-bottom: 8px;
+		font-family: var(--font-sans);
+		font-size: 1.35rem;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.2;
+	}
+	.como-item p {
+		margin: 0;
+		color: var(--muted);
+	}
+	.certificacao {
+		margin-top: 28px;
+	}
+
 	@media (max-width: 860px) {
+		.como-grade {
+			grid-template-columns: 1fr;
+		}
 		.intro,
 		.colunas {
 			grid-template-columns: 1fr;
