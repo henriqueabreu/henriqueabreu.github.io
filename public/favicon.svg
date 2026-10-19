@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-	<!-- Monograma HA: o H e o A dividem a mesma barra, em terracota -->
-	<rect width="64" height="64" rx="14" fill="#141413"/>
-	<g fill="none" stroke="#faf9f5" stroke-width="6" stroke-linecap="butt" stroke-linejoin="miter">
-		<path d="M11 15v34M25 15v34"/>
-		<path d="M32.5 49 43 15 53.5 49"/>
+	<!-- Monograma "HA." brutalista: letras chapadas em papel cru e o ponto em laranja -->
+	<rect width="64" height="64" fill="#0a0a0a"/>
+	<g fill="#f2f0e9">
+		<path d="M4 14h8v14h4V14h8v36h-8V36h-4v14H4z"/>
+		<path transform="translate(1 0)" fill-rule="evenodd" d="M27 50 35.5 14h6L50 50h-6l-1.65-7h-7.7L33 50zM36.07 37h4.86L38.5 28.6z"/>
 	</g>
-	<path d="M11 34h39.6" stroke="#cc785c" stroke-width="6"/>
+	<rect x="53" y="43" width="7" height="7" fill="#ff5a1f"/>
 </svg>
