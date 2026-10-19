@@ -14,3 +14,7 @@ export const AUTOR = {
 
 export const GITHUB_URL = 'https://github.com/henriqueabreu';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/henrique-abreu-30437798/';
+
+// Token do Cloudflare Web Analytics (painel da Cloudflare → Web Analytics → site → "Manage site").
+// Não é segredo: ele aparece no HTML de qualquer forma. Vazio, o site não carrega o analytics.
+export const CLOUDFLARE_ANALYTICS_TOKEN = '9b9ca7e2bef84235a15dbfda3474f00f';
