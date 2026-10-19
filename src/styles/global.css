@@ -513,3 +513,82 @@ kbd {
 	font-weight: 500;
 	letter-spacing: 2px;
 }
+
+/* Linha do tempo de etapas: número colorido pelo papel da peça, descrição e arquivo */
+.dg-instrui::before {
+	background: var(--primary);
+}
+.dg-garante::before {
+	background: var(--teal);
+}
+.dg-revisa::before {
+	background: var(--amber);
+}
+.dg-etapas {
+	margin: 0;
+	padding: 8px 20px;
+	border: 1px solid var(--hairline);
+	border-radius: 12px;
+	background: var(--surface-soft);
+	list-style: none;
+}
+.dg-etapas li {
+	display: grid;
+	grid-template-columns: 30px 1fr auto;
+	align-items: center;
+	gap: 4px 14px;
+	margin: 0 !important;
+	padding: 12px 0;
+	border-top: 1px solid var(--hairline);
+	font-size: 15px;
+	line-height: 1.4;
+}
+.dg-etapas li:first-child {
+	border-top: 0;
+}
+.dg-etapas li::marker {
+	content: '';
+}
+.dg-n {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+}
+li.dg-instrui .dg-n {
+	background: #a9583e;
+}
+li.dg-garante .dg-n {
+	background: #3f8f80;
+}
+li.dg-revisa .dg-n {
+	background: #b97a2f;
+}
+.dg-o {
+	color: var(--ink);
+}
+.dg-etapas code {
+	padding: 2px 8px !important;
+	border: 1px solid var(--hairline) !important;
+	border-radius: 6px;
+	background: var(--canvas) !important;
+	color: var(--ink);
+	font-size: 12.5px;
+	white-space: nowrap;
+}
+@media (max-width: 640px) {
+	.dg-etapas {
+		padding: 4px 14px;
+	}
+	.dg-etapas li {
+		grid-template-columns: 30px 1fr;
+	}
+	.dg-etapas code {
+		grid-column: 2;
+		justify-self: start;
+	}
+}
